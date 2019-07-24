@@ -149,7 +149,7 @@ public:
    */
   int begin(void);
   /**
-   * @brief 设置引脚模式，将其配置为输入、输出或上拉输入模式
+   * @brief 设置引脚模式，将其配置为输入、输出或上拉输入模式(内部上拉电阻100KΩ)
    * @param pin 引脚编号，可填ePin_t包含的所有枚举值（eGPA0-eGPB7/ 0-15）
    * @param mode 模式，可设置成输入(INPUT)、输出(OUTPUT)、上拉输入(INPUT_PULLUP)模式(内部上拉电阻100KΩ)
    * @return 返回0表示设置成功，返回其他值表示设置失败
