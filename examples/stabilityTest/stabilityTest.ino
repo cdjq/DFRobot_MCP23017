@@ -83,7 +83,7 @@ void setup() {
    0       1      2      3      4      5      6      7
   eGPB0  eGPB1  eGPB2  eGPB3  eGPB4  eGPB5  eGPB6  eGPB7
    8       9      10     11     12     13     14     15
-  参数mode 如下参数是可用的：可设置成输入(INPUT)、输出(OUTPUT)、上拉输入(INPUT_PULLUP)模式
+  参数mode 如下参数是可用的：可设置成输入(INPUT)、输出(OUTPUT)、上拉输入(INPUT_PULLUP)模式(内部上拉电阻100KΩ)
   */
   mcp.pinMode(/*pin = */mcp.eGPA7, /*mode = */OUTPUT);
   mcp.pinMode(/*pin = */mcp.eGPB1, /*mode = */OUTPUT);
