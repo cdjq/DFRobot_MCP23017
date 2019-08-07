@@ -1,5 +1,5 @@
 # DFRobot_MCP23017
-这是一款16位数字IO口扩展板，通过IIC接口与主控通信，可以读取并设置引脚的电平值。<br>
+This is a 16-bit digital IO expansion board that communicates with main-controller via IIC to read and set Level value of the pins. <br>
 支持8个IIC地址，一块主控上最多并联8个模块，一次最多扩展128个IO口。<br>
 
 这里需要显示拍照图片，可以一张图片，可以多张图片（不要用SVG图）
