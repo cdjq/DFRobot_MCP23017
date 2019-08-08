@@ -1,7 +1,7 @@
 /*!
  * @file buttonInput.ino
- * @brief 将IO扩展板的某个引脚(例：eGPA0)设置为输入模式，并接上按钮，用来检测按钮的状态
- * @n 实验现象：将按钮连接到IO扩展板的某个引脚(例：eGPA0),检测该引脚的高低电平，并串口打印出按钮的状态
+ * @brief Connect a button to the IO expansion board, set a pin of the board(eg: eGPA0) to input mode to detect the button status.
+ * @n Function description: connect a button on a pin of the IO board(eg:eGPA0), detect the level of the pin and print out the button status on serial port.
  *
  * @copyright   Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
  * @licence     The MIT License (MIT)
@@ -12,7 +12,7 @@
  * @url https://github.com/DFRobot/DFRobot_MCP23017
  */
 #include <DFRobot_MCP23017.h>
-/*DFRobot_MCP23017构造函数
+/*DFRobot_MCP23017 constructor
  *参数&wire 可填TwoWire对象Wire
  *参数addr  如下I2C地址可用0x20~0x27，拨码开关A2、A1、A0与I2C地址对应关系如下所示（默认0x27）：
   * 0  0  1  0  | 0  A2 A1 A0
