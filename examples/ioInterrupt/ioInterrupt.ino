@@ -85,15 +85,15 @@ void setup() {
   mcp.pinModeInterrupt(/*pin = */mcp.eGPB7, /*mode = */mcp.eChangeLevel, /*cb = */gpb7CB);//digital pin 15(eGPB7), double edge interrupts. Generate an interrupt when the status of Pin 15 changes. INTB output High level.
 
   #ifdef ARDUINO_ARCH_MPYTHON  
-  /* 掌控 中断引脚与终端号码对应关系表
+  /* mPython Interrupt pin vs Interrupt NO
    * -------------------------------------------------------------------------------------
-   * |                    |  DigitalPin  |        P0~P20均可作为外部中断使用             |
-   * |    掌控            |--------------------------------------------------------------|
-   * |                    | Interrupt No |  可用digitalPinToInterrupt(Pn) 查询中断号     |
+   * |                    |  DigitalPin  |        P0~P20 can be used as external interrupt|
+   * |    mPython           |--------------------------------------------------------------|
+   * |                    | Interrupt No |  use digitalPinToInterrupt(Pn) query interrupt number     |
    * |-----------------------------------------------------------------------------------|
    */
-  attachInterrupt(digitalPinToInterrupt(P0)/*查询P0引脚的中断号*/,notifyA,RISING);//开启掌控P0引脚的外部中断，上升沿触发，INTA连接P0
-  attachInterrupt(digitalPinToInterrupt(P1)/*查询P1引脚的中断号*/,notifyB,RISING);//开启掌控P1引脚的外部中断，上升沿触发，INTA连接P1
+  attachInterrupt(digitalPinToInterrupt(P0)/*query Interrupt NO of P0*/,notifyA,RISING);//Enable the external interrupt of mPython P0; rising edge trigger;connect INTA to P0
+  attachInterrupt(digitalPinToInterrupt(P1)/*query Interrupt NO of P1*/,notifyB,RISING);//Enable the external interrupt of mPython P1; rising edge trigger;INTA连接P1
   #else
   /* AVR系列Arduino 中断引脚与终端号码对应关系表
    * ---------------------------------------------------------------------------------------
