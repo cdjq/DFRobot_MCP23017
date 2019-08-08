@@ -85,7 +85,7 @@ void setup() {
   mcp.pinModeInterrupt(/*pin = */mcp.eGPB7, /*mode = */mcp.eChangeLevel, /*cb = */gpb7CB);//digital pin 15(eGPB7), double edge interrupts. Generate an interrupt when the status of Pin 15 changes. INTB output High level.
 
   #ifdef ARDUINO_ARCH_MPYTHON  
-  /* mPython Interrupt pin vs Interrupt NO
+  /* mPython Interrupt Pin vs Interrupt NO
    * -------------------------------------------------------------------------------------
    * |                    |  DigitalPin  |        P0~P20 can be used as external interrupt|
    * |    mPython           |--------------------------------------------------------------|
@@ -93,9 +93,9 @@ void setup() {
    * |-----------------------------------------------------------------------------------|
    */
   attachInterrupt(digitalPinToInterrupt(P0)/*query Interrupt NO of P0*/,notifyA,RISING);//Enable the external interrupt of mPython P0; rising edge trigger;connect INTA to P0
-  attachInterrupt(digitalPinToInterrupt(P1)/*query Interrupt NO of P1*/,notifyB,RISING);//Enable the external interrupt of mPython P1; rising edge trigger;INTA连接P1
+  attachInterrupt(digitalPinToInterrupt(P1)/*query Interrupt NO of P1*/,notifyB,RISING);//Enable the external interrupt of mPython P1; rising edge trigger;connect INTB to P1
   #else
-  /* AVR系列Arduino 中断引脚与终端号码对应关系表
+  /* Main-board of AVR series    Interrupt Pin vs Interrupt NO
    * ---------------------------------------------------------------------------------------
    * |                                        |  DigitalPin  | 2  | 3  |                   |
    * |    Uno, Nano, Mini, other 328-based    |--------------------------------------------|
@@ -110,18 +110,18 @@ void setup() {
    * |                                        | Interrupt No | 0  | 1  | 2  | 3  | 4  |    |
    * |--------------------------------------------------------------------------------------
    */
-  /* microbit 中断引脚与终端号码对应关系表
+  /* microbit  Interrupt Pin vs Interrupt NO
    * ---------------------------------------------------------------------------------------------------------------
-   * |                                                   |  DigitalPin  |    P0~P20均可作为外部中断使用            |
+   * |                                                   |  DigitalPin  |    P0~P20 can be used as external interrupt           |
    * |                  microbit                         |---------------------------------------------------------|
-   * |(作为外部中断时，无需用pinMode将其设置为输入模式)  | Interrupt No | 中断号即引脚数字值，如P0中断号为0，P1为1 |
+   * |(when used as external interrupt, do not need to set it to input mode by pinMode)  | Interrupt No | Interrupt is pin value, for instance, the Interrupt NO of P0 is 0, P1 is 1. |
    * |-------------------------------------------------------------------------------------------------------------|
    */
-  attachInterrupt(/*中断号*/0,notifyA,RISING);//开启外部中断0,INTA连接至主控的数字引脚上：UNO(2),Mega2560(2),Leonardo(3),microbit(P0)
-  attachInterrupt(/*中断号*/1,notifyB,RISING);//开启外部中断1,INTB连接至主控的数字引脚上：UNO(3),Mega2560(3),Leonardo(2),microbit(P1)
+  attachInterrupt(/*Interrupt NO*/0,notifyA,RISING);//Enable external interrupt 0, connect INTA to the main-controller's digital pin: UNO(2),Mega2560(2),Leonardo(3),microbit(P0)
+  attachInterrupt(/*Interrupt NO*/1,notifyB,RISING);//Enable external interrupt 1, connect INTB to the main-controller's digital pin: UNO(3),Mega2560(3),Leonardo(2),microbit(P1)
   #endif
 }
-/*中断服务函数*/
+/*Interrupt service function*/
 void notifyA(){
   intFlagA = true;
 }
@@ -132,10 +132,10 @@ void notifyB(){
 void loop() {
   if(intFlagA){
     intFlagA = false;
-    /*pollInterrupts函数用于轮询某组端口是否发生中断
-    参数group 如下参数都是可用的（默认值：eGPIOALL）：
-     eGPIOA   eGPIOB   eGPIOALL
-     A组端口  B组端口  A+B组端口
+    /*pollInterrupts function is used to poll if an interrupt occurs on a port group 
+    parameter group, the avaiable parameter is shown below: (default value: eGPIOALL)：
+     eGPIOA        eGPIOB         eGPIOALL
+     Port group A  Port group B   Port group A+B
     */
     mcp.pollInterrupts(/*group = */mcp.eGPIOA);
   }
