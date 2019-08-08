@@ -72,28 +72,28 @@ int digitalRead(ePin_t pin);
 void pinModeInterrupt(ePin_t pin, eInterruptMode_t mode,  MCP23017_INT_CB cb);
 
 /**
- * @brief Polling if an interrupt occurs on a port group. 轮询某组端口是否发生中断
- * @param group 端口组，可填eGPIOGrout_t包含的所有枚举值GPIO A组（eGPIOA）、GPIO B组（eGPIOB）A+B组（eGPIOALL）
- * @n 填eGPIOA，则轮询A组端口是否发生中断
- * @n 填eGPIOB，则轮询B组端口是否发生中断
- * @n 填eGPIOALL，则轮询A组和B组端口是否发生中断
- * @n 不填，默认轮询A组和B组所有端口是否发生中断
+ * @brief Poll if an interrupt occurs on a port group. 
+ * @param group Port group, it could be all enumeration values included in eGPIOGrout_t,  GPIO Group A(eGPIOA), GPIO Group B(eGPIOB) Group A+B (eGPIOALL)
+ * @n When setting to eGPIOA，poll if an interrupt occurs on the port group A. 
+ * @n When setting to eGPIOB, poll if an interrupt occurs on the port group B. 
+ * @n When setting to eGPIOALL, poll if an interrupt occurs on the port group A+B
+ * @n None, poll if an interrupt occurs on the all ports of group A and B by default. 
  */
 void pollInterrupts(eGPIOGrout_t group=eGPIOALL);
 
 /**
- * @brief 将引脚转为字符串描述
- * @param pin 引脚编号，可填ePin_t包含的所有枚举值（eGPA0-eGPB7/ 0-15）
- * @return 返回引脚描述字符串
+ * @brief Convert pin into string description 
+ * @param pin Pin number, it could be all enumeration values (eGPA0-eGPB7/ 0-15) inlcuded in ePin_t.
+ * @return Return pin description string 
  * @n 如"GPIOA0" "GPIOA1" "GPIOA2" "GPIOA3" "GPIOA4" "GPIOA5" "GPIOA6" "GPIOA7"
  * @n   "GPIOB0" "GPIOB1" "GPIOB2" "GPIOB3" "GPIOB4" "GPIOB5" "GPIOB6" "GPIOB7"
  */
 String pinDescription(ePin_t pin);
 
 /**
- * @brief 将引脚转为字符串描述
- * @param pin 引脚编号，范围0~15
- * @return 返回引脚描述字符串,
+ * @brief Convert pin into string description 
+ * @param pin Pin number, range 0~15
+ * @return Return pin description string
  * @n 如"GPIOA0" "GPIOA1" "GPIOA2" "GPIOA3" "GPIOA4" "GPIOA5" "GPIOA6" "GPIOA7"
  * @n   "GPIOB0" "GPIOB1" "GPIOB2" "GPIOB3" "GPIOB4" "GPIOB5" "GPIOB6" "GPIOB7"
  */
