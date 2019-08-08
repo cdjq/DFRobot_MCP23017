@@ -1,13 +1,13 @@
 # DFRobot_MCP23017
 This is a 16-bit digital IO expansion board that communicates with main-controller via IIC to read and set Level value of the pins. <br>
-支持8个IIC地址，一块主控上最多并联8个模块，一次最多扩展128个IO口。<br>
+The board supports 8 IIC addresses. One main-controller board can be connected with at most 8 modules in parallel to expand 128 IO ports. <br>
 
 这里需要显示拍照图片，可以一张图片，可以多张图片（不要用SVG图）
 
 ![正反面svg效果图](https://github.com/Arya11111/DFRobot_MCP23017/blob/master/resources/images/SEN0245svg1.png)
 
 
-## 产品链接（链接到英文商城）
+## Product Link（链接到英文商城）
     DFR0626：Gravity: MCP23017 IIC to 16 digital IO expansion module
    
 ## Table of Contents
@@ -21,11 +21,11 @@ This is a 16-bit digital IO expansion board that communicates with main-controll
 
 ## Summary
 
-1. 设置引脚模式：输入模式、输出模式、上拉输入模式(内部上拉电阻100KΩ)；<br>
-2. 读取并设置引脚电平值；<br>
-3. 支持5种中断方式：高电平中断、低电平中断、上升沿中断、下降沿中断、双边沿跳变中断；<br>
-4. 支持2路中断信号输出：当端口A的某个引脚发生中断时，INTA引脚输出高电平，当端口B的某个引脚发生中断，INTB引脚输出高电平；<br>
-5. 轮询中断：可通过轮询中断函数，检测引脚是否发生中断，并执行相应的中断服务函数；<br>
+1. Set pin mode: input, output, pull-up input(internal 100KΩ pull-up resistor); <br>
+2. Read and set pin Level value; <br>
+3. Support 5 interruption modes: high-level interrupt, low-level interrupt, rising edge interrupt, falling edge interrupt, double edge interrupts; <br>
+4. Support 2-way interrupt signal output: when an interrupt occurs on some pins of portA, pin INTA output High level, when an interrupt on some pins of PortB, INTB output High level; <br>
+5. Polled interrupt: detect if an interrupt occurs on the pins via polled interrupt function, and run the relevant interrupt service function; <br>
 
 ## Installation
 
@@ -35,36 +35,36 @@ To use this library, first download the library file, paste it into the \Arduino
 
 ```C++
 /**
- * @brief 初始化函数
- * @return 返回0表示初始化成功，返回其他值表示初始化失败
+ * @brief Init function
+ * @return Return 0 if initialization succeeds, otherwise return non-zero. 
  */
 int begin(void);
 
 /**
- * @brief 设置引脚模式，将其配置为输入、输出或上拉输入模式(内部上拉电阻100KΩ)
- * @param pin 引脚编号，可填ePin_t包含的所有枚举值（eGPA0-eGPB7/ 0-15）
- * @param mode 模式，可设置输入(INPUT)、输出(OUTPUT)、上拉输入(INPUT_PULLUP)模式(内部上拉电阻100KΩ)
- * @return 返回0表示设置成功，返回其他值表示设置失败
+ * @brief Set the pin mode to  input, output or pull-up input (internal 100KΩ pull-up resistor)
+ * @param pin Pin number, it could be all enumeration values (eGPA0-eGPB7/ 0-15) included in ePin_t. 
+ * @param mode Mode, it can be set to Input, Output, Pull-up Input (internal 100KΩ pull-up resistor)
+ * @return Return 0 if the setting is successful, otherwise return non-zero. 
  */
 int pinMode(ePin_t pin, uint8_t mode);
 
 /**
- * @brief 写数字引脚，在写引脚之前，需要将引脚设置为输出模式
- * @param pin 引脚编号，可填ePin_t包含的所有枚举值（eGPA0-eGPB7/ 0-15）
- * @param level 高低电平 1(HIGH)或0(LOW)
- * @return 返回0表示设置成功，返回其他值表示写入失败
+ * @brief Write digtial pin. The pin needs to be set to output mode before writing. 
+ * @param pin Pin number, it could be all enumeration values (eGPA0-eGPB7/ 0-15) inlcuded in ePin_t.
+ * @param level High level 1 or Low level 0
+ * @return Return 0 if the writing is successful, otherwise return non-zero. 
  */
 int digitalWrite(ePin_t pin, uint8_t level);
 
 /**
- * @brief 读数字引脚，在读引脚之前，需要将引脚设置为输入模式
- * @param pin 引脚编号，可填ePin_t包含的所有枚举值（eGPA0-eGPB7/ 0-15）
- * @return 返回高低电平
+ * @brief Read digital pin. The pin needs to be set to output mode before reading. 
+ * @param pin Pin number, it could be all enumeration values (eGPA0-eGPB7/ 0-15) included in ePin_t.
+ * @return Return High or Low
  */
 int digitalRead(ePin_t pin);
 
 /**
- * @brief 将某个引脚设置为中断模式
+ * @brief Set a pin 将某个引脚设置为中断模式
  * @param pin 引脚编号，可填ePin_t包含的所有枚举值（eGPA0-eGPB7/ 0-15）
  * @param mode 中断方式：可填eInterruptMode_t包含的所有枚举值
  * @param cb 中断服务函数，由用户外部定义函数传参，原型为void func(int)
