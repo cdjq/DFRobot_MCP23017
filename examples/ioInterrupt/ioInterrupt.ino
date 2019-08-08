@@ -1,8 +1,8 @@
 /*!
  * @file ioInterrupt.ino
- * @brief IO中断，将IO扩展板的某组端口（A组或B组）的某个引脚设置为中断模式,当对应组端口发生中断时，引脚INTA（对应A组端口）或INTB（对应B组端口）将输出一个高电平
- * INTA用来检测端口eGPA的引脚是否发生中断,INTB用来检测端口eGPB的引脚是否发生中断;将INTA和INTB引脚分别连接到主控的外部中断0和外部中断1
- * @n 实验现象：当主控检测到INTA或INTB引脚信号发生变化时，执行相应的中断服务函数，从而串口打印出是哪个引脚发生了中断
+ * @brief IO interrupt, set a pin of a port group(A or B) IO to interrupt mode. When an interrupt occurs on the related port group, pin INTA(group A) or INTB(group B) will output a High level.
+ * INTA and INTB are used to detect if an interrupt occurs on the pin of port eGPA and eGPB respectively; connect pin INTA and INTB to main-controller's external interrupt 0 and 1 respectively.
+ * @n Experiment phenomenon: when the signal change of pin INTA or INTB is detected by main-board, the related interrupt service function will be executed to print out which pin was interrupted on serial port.
  *
  * @copyright   Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
  * @licence     The MIT License (MIT)
@@ -14,9 +14,9 @@
  */
 
 #include <DFRobot_MCP23017.h>
-/*DFRobot_MCP23017构造函数
- *参数&wire 可填TwoWire对象Wire
- *参数addr  如下I2C地址可用0x20~0x27，拨码开关A2、A1、A0与I2C地址对应关系如下所示（默认0x27）：
+/*DFRobot_MCP23017 constructor
+ *Parameter &wire Wire
+ *Parameter addr  I2C address can be selected from 0x20~0x27; the relationship of the DIP switch(A2, A1, A0) and I2C address(0x27) is shown below: 
   * 0  0  1  0  | 0  A2 A1 A0
     0  0  1  0  | 0  1  1  1    0x27
     0  0  1  0  | 0  1  1  0    0x26
@@ -27,19 +27,19 @@
     0  0  1  0  | 0  0  0  1    0x21
     0  0  1  0  | 0  0  0  0    0x20
  */
-DFRobot_MCP23017 mcp(Wire, /*addr =*/0x27);//构造函数，地址可通过拨码开关更改A2A1A0的高低电平，实现硬件更改地址，范围0x20~0x27
-//DFRobot_MCP23017 mcp;//这样定义会使用默认参数， Wire  0x27(默认I2C地址)
+DFRobot_MCP23017 mcp(Wire, /*addr =*/0x27);//constructor, change the Level of A2, A1, A0 via DIP switch to revise I2C address within 0x20~0x27.
+//DFRobot_MCP23017 mcp;//use default parameter, Wire  0x27(default I2C address)
 
-//将2个按钮分别连接到IO扩展板端口eGPA的某个引脚(例：eGPA0)和端口eGPB的某个引脚(例：eGPB0)
-//将INTA连接到UNO的外部中断0引脚上，INTB连接到UNO的外部中断1引脚上
+//Connect 2 buttons to IO expansion board, one to a pin of port eGPA(eg: eGPA0), the other to a pin of port eGPB(eg: eGPB0)
+//Connect INTA to the external interrupt pin0 of UNO, INTB to external interrupt pin1 of UNO.
 
-bool intFlagA = false;//INTA中断标志
-bool intFlagB = false;//INTB中断标志
+bool intFlagA = false;//INT interrupt sign
+bool intFlagB = false;//INTB interrupt sign
 
-/*中断服务函数，原型为 void func(int index),其中index代表那个引脚发生中断*/
+/*Interrupt service function, prototype void func(int index), index represents the pin which is interrupted*/
 void gpa0CB(int index){
-  /*pinDescription函数用来将某个引脚转换为字符串描述
-  参数pin 如下参数都是可用的
+  /*pinDescription function is used to convert a pin into string description
+  Parameter pin, the avaiable parameter is shown below:
   eGPA0  eGPA1  eGPA2  eGPA3  eGPA4  eGPA5  eGPA6  eGPA7
    0    1    2    3    4    5    6    7
   eGPB0  eGPB1  eGPB2  eGPB3  eGPB4  eGPB5  eGPB6  eGPB7
@@ -57,29 +57,29 @@ void gpb7CB(int index){
 void setup() {
   Serial.begin(115200);
   #ifdef ARDUINO_ARCH_MPYTHON 
-  pinMode(P0, INPUT);//使用掌控外部中断,INTA连接到掌控P0引脚
-  pinMode(P1, INPUT);//使用掌控外部中断,INTB连接到掌控P1引脚
+  pinMode(P0, INPUT);//use mPython external interrupt, connect INTA to pin 0 of mPython.
+  pinMode(P1, INPUT);//use mPyhtin external interrupt, connect INTB to pin 1 of mPython.
   #else
-  pinMode(2, INPUT);//使用UNO的外部中断0
-  pinMode(3, INPUT);//使用UNO的外部中断1
+  pinMode(2, INPUT);//use UNO external interrupt 0
+  pinMode(3, INPUT);//use UNO external interrupt 1
   #endif
 
-  /*在这里一致等到芯片初始化完成才能退出*/
+  /*wait for the chip to be initialized completely, and then exit*/
   while(mcp.begin() != 0){
     Serial.println("Initialization of the chip failed, please confirm that the chip connection is correct!");
     delay(1000);
   }
-  /*pinModeInterrupt函数用于将引脚设置中断模式，该函数会自动将引脚设置为输入模式
-  参数pin 如下参数都是可用的：
+  /*pinModeInterrupt function is used to set pin to interrupt mode, and the pin will be automatically set to input mode.
+  Parameter pin, the avaiable parameter is showm below:
   eGPA0  eGPA1  eGPA2  eGPA3  eGPA4  eGPA5  eGPA6  eGPA7
     0      1      2      3      4      5      6      7
   eGPB0  eGPB1  eGPB2  eGPB3  eGPB4  eGPB5  eGPB6  eGPB7
     8      9      10     11     12     13     14     15
-  参数mode 如下参数是可用的：
-  eLowLevel    eHighLevel    eRising    eFalling    eChangeLevel
-  低电平中断   低电平中断    上升沿跳变 下降沿跳变  双边沿跳变中断
-  参数cb 中断服务函数(带参函数)
-  原型void func(int)
+  Parameter mode, the avaiable parameter is shown below:
+  eLowLevel              eHighLevel              eRising                eFalling                  eChangeLevel
+  Low-level interrupt    High-level interrupt    Rising edge interrupt  Falling edge interrupt    Double edge interrupts 
+  Parameter cb interrupt service function(with parameter)
+  Prototype void func(int)
   */
   mcp.pinModeInterrupt(/*pin = */mcp.eGPA0, /*mode = */mcp.eHighLevel, /*cb = */gpa0CB);//数字引脚0(eGPA0)，高电平中断，当引脚0的状态为高电平时产生中断，INTA输出高电平
   mcp.pinModeInterrupt(/*pin = */mcp.eGPB7, /*mode = */mcp.eChangeLevel, /*cb = */gpb7CB);//数字引脚15(eGPB7)，双边沿跳变中断，当引脚15的状态改变时产生中断，INTB输出高电平
