@@ -24,7 +24,7 @@ The board supports 8 IIC addresses. One main-controller board can be connected w
 1. Set pin mode: input, output, pull-up input(internal 100KΩ pull-up resistor); <br>
 2. Read and set pin Level value; <br>
 3. Support 5 interruption modes: high-level interrupt, low-level interrupt, rising edge interrupt, falling edge interrupt, double edge interrupts; <br>
-4. Support 2-way interrupt signal output: when an interrupt occurs on some pins of portA, pin INTA output High level, when an interrupt on some pins of PortB, INTB output High level; <br>
+4. Support 2-way interrupt signal output: when an interrupt occurs on a pin of portA, pin INTA output High level, when an interrupt on a pin of PortB, INTB output High level; <br>
 5. Polled interrupt: detect if an interrupt occurs on the pins via polled interrupt function, and run the relevant interrupt service function; <br>
 
 ## Installation
@@ -64,15 +64,15 @@ int digitalWrite(ePin_t pin, uint8_t level);
 int digitalRead(ePin_t pin);
 
 /**
- * @brief Set a pin 将某个引脚设置为中断模式
- * @param pin 引脚编号，可填ePin_t包含的所有枚举值（eGPA0-eGPB7/ 0-15）
- * @param mode 中断方式：可填eInterruptMode_t包含的所有枚举值
- * @param cb 中断服务函数，由用户外部定义函数传参，原型为void func(int)
+ * @brief Set a pin to interrupt mode 
+ * @param pin Pin number, it could be all enumeration values (eGPA0-eGPB7/ 0-15) included in ePin_t.
+ * @param mode Interrupt mode: all enumeration values included in eInterruptMode_t.
+ * @param cb Interrupt service function, needs to be defined and transferred parameter by users. Prototype: void func(int)
  */
 void pinModeInterrupt(ePin_t pin, eInterruptMode_t mode,  MCP23017_INT_CB cb);
 
 /**
- * @brief 轮询某组端口是否发生中断
+ * @brief Polling if an interrupt occurs on a port group. 轮询某组端口是否发生中断
  * @param group 端口组，可填eGPIOGrout_t包含的所有枚举值GPIO A组（eGPIOA）、GPIO B组（eGPIOB）A+B组（eGPIOALL）
  * @n 填eGPIOA，则轮询A组端口是否发生中断
  * @n 填eGPIOB，则轮询B组端口是否发生中断
