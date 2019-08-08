@@ -1,7 +1,7 @@
 /*!
  * @file buttonInput.ino
  * @brief Connect a button to the IO expansion board, set a pin of the board(eg: eGPA0) to input mode to detect the button status.
- * @n Function description: connect a button on a pin of the IO board(eg:eGPA0), detect the level of the pin and print out the button status on serial port.
+ * @n Experiment phenomenon: connect a button on a pin of the IO board(eg:eGPA0), detect the level of the pin and print out the button status on serial port.
  *
  * @copyright   Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
  * @licence     The MIT License (MIT)
