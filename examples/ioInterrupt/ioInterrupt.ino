@@ -81,10 +81,10 @@ void setup() {
   Parameter cb interrupt service function(with parameter)
   Prototype void func(int)
   */
-  mcp.pinModeInterrupt(/*pin = */mcp.eGPA0, /*mode = */mcp.eHighLevel, /*cb = */gpa0CB);//数字引脚0(eGPA0)，高电平中断，当引脚0的状态为高电平时产生中断，INTA输出高电平
-  mcp.pinModeInterrupt(/*pin = */mcp.eGPB7, /*mode = */mcp.eChangeLevel, /*cb = */gpb7CB);//数字引脚15(eGPB7)，双边沿跳变中断，当引脚15的状态改变时产生中断，INTB输出高电平
+  mcp.pinModeInterrupt(/*pin = */mcp.eGPA0, /*mode = */mcp.eHighLevel, /*cb = */gpa0CB);//digital pin 0(eGPA0), interrupt in High level. Generate an interrupt when pin 0 is in High level state.INTA output High level.
+  mcp.pinModeInterrupt(/*pin = */mcp.eGPB7, /*mode = */mcp.eChangeLevel, /*cb = */gpb7CB);//digital pin 15(eGPB7), double edge interrupts. Generate an interrupt when the status of Pin 15 changes. INTB output High level.
 
-  #ifdef ARDUINO_ARCH_MPYTHON  //Microbit这里需要做一些单独处理吗
+  #ifdef ARDUINO_ARCH_MPYTHON  
   /* 掌控 中断引脚与终端号码对应关系表
    * -------------------------------------------------------------------------------------
    * |                    |  DigitalPin  |        P0~P20均可作为外部中断使用             |
