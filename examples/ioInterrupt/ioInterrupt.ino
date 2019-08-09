@@ -84,16 +84,16 @@ void setup() {
   mcp.pinModeInterrupt(/*pin = */mcp.eGPA0, /*mode = */mcp.eHighLevel, /*cb = */gpa0CB);//digital pin 0(eGPA0), interrupt in High level. Generate an interrupt when pin 0 is in High level state.INTA output High level.
   mcp.pinModeInterrupt(/*pin = */mcp.eGPB7, /*mode = */mcp.eChangeLevel, /*cb = */gpb7CB);//digital pin 15(eGPB7), double edge interrupts. Generate an interrupt when the status of Pin 15 changes. INTB output High level.
 
-  #ifdef ARDUINO_ARCH_MPYTHON  
+  #ifdef ARDUINO_ARCH_MPYTHON // 
   /* mPython Interrupt Pin vs Interrupt NO
    * -------------------------------------------------------------------------------------
    * |                    |  DigitalPin  |        P0~P20 can be used as external interrupt|
    * |    mPython           |--------------------------------------------------------------|
-   * |                    | Interrupt No |  use digitalPinToInterrupt(Pn) query interrupt number     |
+   * |                    | Interrupt No |  use digitalPinToInterrupt(Pn) to query interrupt number     |
    * |-----------------------------------------------------------------------------------|
    */
-  attachInterrupt(digitalPinToInterrupt(P0)/*query Interrupt NO of P0*/,notifyA,RISING);//Enable the external interrupt of mPython P0; rising edge trigger;connect INTA to P0
-  attachInterrupt(digitalPinToInterrupt(P1)/*query Interrupt NO of P1*/,notifyB,RISING);//Enable the external interrupt of mPython P1; rising edge trigger;connect INTB to P1
+  attachInterrupt(digitalPinToInterrupt(P0)/*query Interrupt NO of P0*/,notifyA,RISING);//Enable the external interrupt of mPython P0; rising edge trigger; connect INTA to P0
+  attachInterrupt(digitalPinToInterrupt(P1)/*query Interrupt NO of P1*/,notifyB,RISING);//Enable the external interrupt of mPython P1; rising edge trigger; connect INTB to P1
   #else
   /* Main-board of AVR series    Interrupt Pin vs Interrupt NO
    * ---------------------------------------------------------------------------------------
@@ -114,7 +114,7 @@ void setup() {
    * ---------------------------------------------------------------------------------------------------------------
    * |                                                   |  DigitalPin  |    P0~P20 can be used as external interrupt           |
    * |                  microbit                         |---------------------------------------------------------|
-   * |(when used as external interrupt, do not need to set it to input mode via pinMode)  | Interrupt No | Interrupt is pin value, for instance, the Interrupt NO of P0 is 0, P1 is 1. |
+   * |(when used as external interrupt, do not need to set it to input mode via pinMode)  | Interrupt No | Interrupt NO is pin value, for instance, the Interrupt NO of P0 is 0, P1 is 1. |
    * |-------------------------------------------------------------------------------------------------------------|
    */
   attachInterrupt(/*Interrupt NO*/0,notifyA,RISING);//Enable external interrupt 0, connect INTA to the main-controller's digital pin: UNO(2),Mega2560(2),Leonardo(3),microbit(P0)
@@ -135,7 +135,7 @@ void loop() {
     /*pollInterrupts function is used to poll if an interrupt occurs on a port group 
     parameter group, the available parameter is shown below: (default value: eGPIOALL)：
      eGPIOA        eGPIOB         eGPIOALL
-     Port group A  Port group B   Port group A+B
+     Port groupA  Port groupB   Port groupA+B
     */
     mcp.pollInterrupts(/*group = */mcp.eGPIOA);
   }
