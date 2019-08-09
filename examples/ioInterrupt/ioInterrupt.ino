@@ -39,7 +39,7 @@ bool intFlagB = false;//INTB interrupt sign
 /*Interrupt service function, prototype void func(int index), index represents the pin which is interrupted*/
 void gpa0CB(int index){
   /*pinDescription function is used to convert a pin into string description
-  Parameter pin, the avaiable parameter is shown below:
+  Parameter pin, the available parameter is shown below:
   eGPA0  eGPA1  eGPA2  eGPA3  eGPA4  eGPA5  eGPA6  eGPA7
    0    1    2    3    4    5    6    7
   eGPB0  eGPB1  eGPB2  eGPB3  eGPB4  eGPB5  eGPB6  eGPB7
@@ -70,12 +70,12 @@ void setup() {
     delay(1000);
   }
   /*pinModeInterrupt function is used to set pin to interrupt mode, and the pin will be automatically set to input mode.
-  Parameter pin, the avaiable parameter is showm below:
+  Parameter pin, the available parameter is showm below:
   eGPA0  eGPA1  eGPA2  eGPA3  eGPA4  eGPA5  eGPA6  eGPA7
     0      1      2      3      4      5      6      7
   eGPB0  eGPB1  eGPB2  eGPB3  eGPB4  eGPB5  eGPB6  eGPB7
     8      9      10     11     12     13     14     15
-  Parameter mode, the avaiable parameter is shown below:
+  Parameter mode, the available parameter is shown below:
   eLowLevel              eHighLevel              eRising                eFalling                  eChangeLevel
   Low-level interrupt    High-level interrupt    Rising edge interrupt  Falling edge interrupt    Double edge interrupts 
   Parameter cb interrupt service function(with parameter)
@@ -114,7 +114,7 @@ void setup() {
    * ---------------------------------------------------------------------------------------------------------------
    * |                                                   |  DigitalPin  |    P0~P20 can be used as external interrupt           |
    * |                  microbit                         |---------------------------------------------------------|
-   * |(when used as external interrupt, do not need to set it to input mode by pinMode)  | Interrupt No | Interrupt is pin value, for instance, the Interrupt NO of P0 is 0, P1 is 1. |
+   * |(when used as external interrupt, do not need to set it to input mode via pinMode)  | Interrupt No | Interrupt is pin value, for instance, the Interrupt NO of P0 is 0, P1 is 1. |
    * |-------------------------------------------------------------------------------------------------------------|
    */
   attachInterrupt(/*Interrupt NO*/0,notifyA,RISING);//Enable external interrupt 0, connect INTA to the main-controller's digital pin: UNO(2),Mega2560(2),Leonardo(3),microbit(P0)
@@ -133,7 +133,7 @@ void loop() {
   if(intFlagA){
     intFlagA = false;
     /*pollInterrupts function is used to poll if an interrupt occurs on a port group 
-    parameter group, the avaiable parameter is shown below: (default value: eGPIOALL)：
+    parameter group, the available parameter is shown below: (default value: eGPIOALL)：
      eGPIOA        eGPIOB         eGPIOALL
      Port group A  Port group B   Port group A+B
     */
