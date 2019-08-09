@@ -33,7 +33,7 @@ DFRobot_MCP23017 mcp(Wire, /*addr =*/0x27);//constructor, change the Level of A2
 //Connect 2 buttons to IO expansion board, one to a pin of port eGPA(eg: eGPA0), the other to a pin of port eGPB(eg: eGPB0)
 //Connect INTA to the external interrupt pin0 of UNO, INTB to external interrupt pin1 of UNO.
 
-bool intFlagA = false;//INT interrupt sign
+bool intFlagA = false;//INTA interrupt sign
 bool intFlagB = false;//INTB interrupt sign
 
 /*Interrupt service function, prototype void func(int index), index represents the pin which is interrupted*/
