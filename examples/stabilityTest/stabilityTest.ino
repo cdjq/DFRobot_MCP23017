@@ -1,14 +1,14 @@
 /*!
  * @file stabilityTest.ino
- * @brief 综合测试demo，测试扩展板的输入、输出、中断等功能。
- * @n 将扩展板B组端口上的引脚eGPB1设置为输出模式，并接上LED灯,取名LEDB1
- * @n 将扩展板A组端口上的引脚eGPA7设置为输出模式，并接上LED灯，取名LEDA7
- * @n 将扩展板A组端口上的引脚eGPA0设置为输入模式，并接上Button，取名按钮A0
- * @n 将扩展板A组端口上的引脚eGPA1设置为下降沿中断，并接上按钮，取名按钮A1，并将INTA中断信号引脚连接到主控的外部中断0（这里以UNO为例）
- * @n 将扩展板B组端口上的引脚eGPB7设置为上升沿中断，并接上按钮，取名按钮B7，并将INTB中断信号引脚连接到主控的外部中断1（这里以UNO为例）
- * @n 当检测到按钮A0被按下时，LEDB1亮，松开时，LEDB1灭
- * @n 当检测到A组端口发生中断时，LEDA7亮
- * @n 当检测到B组端口发生中断时，LEDA7灭
+ * @brief A Comprehensive demo to test the functions of IO expansion board: input, output, interrupt.
+ * @n Set the pin eGPB1 on port groupB to output mode, connect a LED to the pin, name it as LEDB1.
+ * @n Set the pin eGPA7 on port groupA to output mode, connect a LED to the pin, name it as LEDA7.
+ * @n Set the pin eGPA0 on port groupA to input mode, connect a button to the pin, name it as ButtonA0.
+ * @n Set the pin eGPA1 on port groupA to falling edge interrupt, connect a button to the pin, name it as ButtonA1. Connect INTA interrupted signal pin to the external interrupt 0 of main-controller. (Take UNO as example)
+ * @n Set the pin eGPB7 on port groupB to rising edge interrupt, connect a button to the pin, name it as ButtonB7. Connect INTB interrupted signal pin to the external interrupt 1 of main-controller. (Take UNO as example here)
+ * @n When detected ButtonA0 is pressed, LEDB1 turn on, release LEDB1 off
+ * @n When detected an interrupt occurred on port groupA, LEDA7 turn on
+ * @n When detected an interrupt occurred on port groupB, LEDA7 turn off 
  *
  * @copyright   Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
  * @licence     The MIT License (MIT)
@@ -19,9 +19,9 @@
  * @url https://github.com/DFRobot/DFRobot_MCP23017
  */
 #include <DFRobot_MCP23017.h>
-/*DFRobot_MCP23017构造函数
- *参数&wire 可填TwoWire对象Wire
- *参数addr  如下I2C地址可用0x20~0x27，拨码开关A2、A1、A0与I2C地址对应关系如下所示（默认0x27）：
+/*DFRobot_MCP23017 Constructor
+ *Parameter &wire  Wire
+ *Parameter addr  I2C address can be selected from 0x20~0x27, the relationship of DIP switch (A2,A1,A0) and I2C address(0x27) is shown below:
   * 0  0  1  0  | 0  A2 A1 A0
     0  0  1  0  | 0  1  1  1    0x27
     0  0  1  0  | 0  1  1  0    0x26
@@ -32,13 +32,13 @@
     0  0  1  0  | 0  0  0  1    0x21
     0  0  1  0  | 0  0  0  0    0x20
  */
-DFRobot_MCP23017 mcp(Wire, 0x27);//构造函数，地址可通过拨码开关更改A2A1A0的高低电平，实现硬件更改地址，范围0x20~0x27
-//DFRobot_MCP23017 mcp;//这样定义会使用默认参数， Wire  0x27(默认I2C地址)
+DFRobot_MCP23017 mcp(Wire, 0x27);//constructor, change the Level of A2, A1, A0 via DIP switch to revise the I2C address within 0x20~0x27.
+//DFRobot_MCP23017 mcp;//use default parameter, Wire  0x27(default I2C address)
 
-/*中断服务函数，原型为 void func(int index),index：表示发生中断的引脚编号*/
+/*Interrupt service function, prototype void func(int index), index represents the number of the pin that is interrupted*/
 void gpioA1(int index){
-  /*pinDescription函数用来将某个引脚转换为字符串描述
-  参数pin 如下参数都是可用的
+  /*pinDescription function is used to convert a pin into string description
+  arameter pin, the available parameter is shown below:
   eGPA0  eGPA1  eGPA2  eGPA3  eGPA4  eGPA5  eGPA6  eGPA7
     0      1      2      3      4      5      6      7
   eGPB0  eGPB1  eGPB2  eGPB3  eGPB4  eGPB5  eGPB6  eGPB7
@@ -58,63 +58,63 @@ void gpioB7(int index){
   mcp.digitalWrite(/*pin = */mcp.eGPB1, /*level = */LOW);
 }
 
-bool intFlagA = false;//INTA中断标志
-bool intFlagB = false;//INTB中断标志
+bool intFlagA = false;//INTA interrupt sign
+bool intFlagB = false;//INTB interrupt sign
 
 void setup() {
   Serial.begin(115200);
   
-  /*在这里一致等到芯片初始化完成才能退出*/
+  /*wait for the chip to be initialized completely, and then exit*/
   while(mcp.begin() != 0){
     Serial.println("Initialization of the chip failed, please confirm that the chip connection is correct!");
     delay(1000);
   }
   #ifdef ARDUINO_ARCH_MPYTHON 
-  pinMode(P0, INPUT);//使用掌控外部中断,INTA连接到掌控P0引脚
-  pinMode(P1, INPUT);//使用掌控外部中断,INTB连接到掌控P1引脚
+  pinMode(P0, INPUT);//use mPython external interrupt, connect INTA to pin 0 of mPython.
+  pinMode(P1, INPUT);//use mPyhtin external interrupt, connect INTB to pin 1 of mPython.
   #else
-  pinMode(2, INPUT);//使用UNO的外部中断0
-  pinMode(3, INPUT);//使用UNO的外部中断1
+  pinMode(2, INPUT);//use UNO external interrupt 0
+  pinMode(3, INPUT);//use UNO external interrupt 1
   #endif
   
-  /*pinMode函数用于这是模块引脚模式
-  参数pin 如下参数都是可用的：
+  /*pinMode function is used to set pin mode of module
+  Parameter pin, the available parameter is shown below:
   eGPA0  eGPA1  eGPA2  eGPA3  eGPA4  eGPA5  eGPA6  eGPA7
    0       1      2      3      4      5      6      7
   eGPB0  eGPB1  eGPB2  eGPB3  eGPB4  eGPB5  eGPB6  eGPB7
    8       9      10     11     12     13     14     15
-  参数mode 如下参数是可用的：可设置成输入(INPUT)、输出(OUTPUT)、上拉输入(INPUT_PULLUP)模式(内部上拉电阻100KΩ)
+  Parameter mode, can be set to INPUT, OUTPUT, INPUT_PULLUP (internal 100KΩ pull-up resistor)
   */
   mcp.pinMode(/*pin = */mcp.eGPA7, /*mode = */OUTPUT);
   mcp.pinMode(/*pin = */mcp.eGPB1, /*mode = */OUTPUT);
   mcp.pinMode(/*pin = */mcp.eGPA0, /*mode = */INPUT);
 
-  /*pinModeInterrupt函数用于将引脚设置中断模式，该函数会自动将引脚设置为输入模式
-  参数pin 如下参数都是可用的：
+  /*pinModeInterrupt function is used to set a pin to interrupt mode. The pin will be automatically set to input mode by this function.  
+  Parameter pin, the available parameter is showm below:
   eGPA0  eGPA1  eGPA2  eGPA3  eGPA4  eGPA5  eGPA6  eGPA7
     0      1      2      3      4      5      6      7
   eGPB0  eGPB1  eGPB2  eGPB3  eGPB4  eGPB5  eGPB6  eGPB7
     8      9      10     11     12     13     14     15
-  参数mode 如下参数是可用的：
-  eLowLevel    eHighLevel    eRising    eFalling    eChangeLevel
-  低电平中断   低电平中断    上升沿跳变 下降沿跳变  双边沿跳变中断
-  参数cb 中断服务函数(带参函数)
-  原型void func(int)
+  Parameter mode, the available parameter is shown below:
+  eLowLevel             eHighLevel             eRising                   eFalling                   eChangeLevel
+ Low-level interrupt    High-level interrupt   Rising edge interrupt     Falling edge interrupt     Double edge interrupts 
+  Parameter cb interrupt service function(with parameter)
+  Prototype void func(int)
   */
-  mcp.pinModeInterrupt(/*p = */mcp.eGPA1, /*mode = */mcp.eFalling, /*cb = */gpioA1);//数字引脚1(eGPA1)，下降沿中断，当引脚1的状态从高电平到低电平变化时产生中断，INTA输出高电平
-  mcp.pinModeInterrupt(/*p = */mcp.eGPB7, /*mode = */mcp.eRising, /*cb = */gpioB7);//数字引脚15(eGPB7)，上升沿中断，当引脚15的状态从低电平到高电平变化时产生中断，INTB输出高电平
-  #ifdef ARDUINO_ARCH_MPYTHON  //Microbit这里需要做一些单独处理吗
-  /* 掌控 中断引脚与终端号码对应关系表
+  mcp.pinModeInterrupt(/*p = */mcp.eGPA1, /*mode = */mcp.eFalling, /*cb = */gpioA1);//digital pin1(eGPA1), falling edge interrupt, generate an interrupt when the status of pin 1 changes from High to Low, INTA output High level.
+  mcp.pinModeInterrupt(/*p = */mcp.eGPB7, /*mode = */mcp.eRising, /*cb = */gpioB7);//digital pin15(eGPB7),  rising edge interrupt, generate an interrupt when the status of pin15 changes from Low to High, INTB output High level.
+  #ifdef ARDUINO_ARCH_MPYTHON  //
+  /* mPython Interrupt Pin vs Interrupt NO
    * -------------------------------------------------------------------------------------
-   * |                    |  DigitalPin  |        P0~P20均可作为外部中断使用             |
-   * |    掌控            |--------------------------------------------------------------|
-   * |                    | Interrupt No |  可用digitalPinToInterrupt(Pn) 查询中断号     |
+   * |                    |  DigitalPin  |        P0~P20 can be used as external interrupt             |
+   * |    mPython            |--------------------------------------------------------------|
+   * |                    | Interrupt No |  use digitalPinToInterrupt(Pn) to query interrupt number     |
    * |-----------------------------------------------------------------------------------|
    */
-  attachInterrupt(digitalPinToInterrupt(P0)/*查询P0引脚的中断号*/,notifyA,RISING);//开启掌控P0引脚的外部中断，上升沿触发，INTA连接P0
-  attachInterrupt(digitalPinToInterrupt(P1)/*查询P1引脚的中断号*/,notifyB,RISING);//开启掌控P1引脚的外部中断，上升沿触发，INTB连接P1
+  attachInterrupt(digitalPinToInterrupt(P0)/*query Interrupt NO of P0*/,notifyA,RISING);//Enable the external interrupt of mPython P0; rising edge trigger; connect INTA to P0
+  attachInterrupt(digitalPinToInterrupt(P1)/*query Interrupt NO of P1*/,notifyB,RISING);//Enable the external interrupt of mPython P1; rising edge trigger; connect INTB to P1
   #else
-  /* AVR系列Arduino 中断引脚与终端号码对应关系表
+  /* Main-board of AVR series    Interrupt Pin vs Interrupt NO
    * ---------------------------------------------------------------------------------------
    * |                                        |  DigitalPin  | 2  | 3  |                   |
    * |    Uno, Nano, Mini, other 328-based    |--------------------------------------------|
@@ -129,19 +129,19 @@ void setup() {
    * |                                        | Interrupt No | 0  | 1  | 2  | 3  | 4  |    |
    * |--------------------------------------------------------------------------------------
    */
-  /* microbit 中断引脚与终端号码对应关系表
+  /* microbit Interrupt Pin vs Interrupt NO
    * ---------------------------------------------------------------------------------------------------------------
-   * |                                                   |  DigitalPin  |    P0~P20均可作为外部中断使用            |
+   * |                                                   |  DigitalPin  |    P0~P20 can be used as external interrupt            |
    * |                  microbit                         |---------------------------------------------------------|
-   * |(作为外部中断时，无需用pinMode将其设置为输入模式)  | Interrupt No | 中断号即引脚数字值，如P0中断号为0，P1为1 |
+   * |(when used as external interrupt, do not need to set it to input mode via pinMode)  | Interrupt No | Interrupt NO is pin value, for instance, the Interrupt NO of P0 is 0, P1 is 1. |
    * |-------------------------------------------------------------------------------------------------------------|
    */
-  attachInterrupt(/*中断号*/0,notifyA,RISING);//开启外部中断0,INTA连接至主控的数字引脚上：UNO(2),Mega2560(2),Leonardo(3),microbit(P0)
-  attachInterrupt(/*中断号*/1,notifyB,RISING);//开启外部中断1,INTB连接至主控的数字引脚上：UNO(3),Mega2560(3),Leonardo(2),microbit(P1)
+  attachInterrupt(/*Interrupt NO*/0,notifyA,RISING);//Enable external interrupt 0, connect INTA to the main-controller's digital pin: UNO(2),Mega2560(2),Leonardo(3),microbit(P0)
+  attachInterrupt(/*Interrupt NO*/1,notifyB,RISING);//Enable external interrupt 1, connect INTB to the main-controller's digital pin: UNO(3),Mega2560(3),Leonardo(2),microbit(P1)
   #endif
 }
 
-/*中断服务函数*/
+/*Interrupt service function*/
 void notifyA(){
   intFlagA = true;
 }
@@ -150,8 +150,8 @@ void notifyB(){
 }
 
 void loop() {
-  /*digitalRead函数用于读取某个数字引脚的高低电平,在使用该函数之前，必须先将引脚设置为输入模式
-  参数pin 如下参数都是可用的：
+  /*digitalRead function is used to read the Level of a digital pin. The pin needs to be set to input mode before using this function. 
+  Parameter pin, the available parameter is shown below:
   eGPA0  eGPA1  eGPA2  eGPA3  eGPA4  eGPA5  eGPA6  eGPA7
    0       1      2      3      4      5      6      7
   eGPB0  eGPB1  eGPB2  eGPB3  eGPB4  eGPB5  eGPB6  eGPB7
@@ -159,8 +159,8 @@ void loop() {
   */
   uint8_t value = mcp.digitalRead(/*pin = */mcp.eGPA0);
   if(value){
-      /*digitalWrite函数用于将引脚输出高电平(HIGH)或低电平(LOW),在使用该函数之前，必须先将引脚设置为输出模式
-      可以直接指定扩展板的引脚，参数pin如下参数都是可用的：
+      /*digitalWrite function is used to make the pin output HIGH or LOW. The pin needs to be set to output mode before using this function.
+      Designate a pin on the IO expansion board; parameter pin, the available parameter is shown below:
       eGPA0  eGPA1  eGPA2  eGPA3  eGPA4  eGPA5  eGPA6  eGPA7
        0      1       2      3      4      5      6      7
       eGPB0  eGPB1  eGPB2  eGPB3  eGPB4  eGPB5  eGPB6  eGPB7
@@ -173,10 +173,10 @@ void loop() {
   }
   if(intFlagA){
     intFlagA = false;
-    /*pollInterrupts函数用于轮询某组端口是否发生中断
-    参数group 如下参数都是可用的（默认值：eGPIOALL）：
-     eGPIOA   eGPIOB   eGPIOALL
-     A组端口  B组端口  A+B组端口
+    /*pollInterrupts function is used to poll if an interrupt occurs on a port group
+    Parameter group, the available parameter is shown below: (default value: eGPIOALL)：
+     eGPIOA        eGPIOB         eGPIOALL
+     Port group A  Port groupB    Port groupA+B
     */
     mcp.pollInterrupts(/*group = */mcp.eGPIOA);
   }
