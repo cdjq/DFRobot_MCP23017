@@ -57,7 +57,7 @@ int pinMode(ePin_t pin, uint8_t mode);
 int digitalWrite(ePin_t pin, uint8_t level);
 
 /**
- * @brief Read digital pin. The pin needs to be set to output mode before reading. 
+ * @brief Read digital pin. The pin needs to be set to input mode before reading. 
  * @param pin Pin number, it could be all enumeration values (eGPA0-eGPB7/ 0-15) included in ePin_t.
  * @return Return High or Low
  */
