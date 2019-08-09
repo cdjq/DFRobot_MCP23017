@@ -1,7 +1,7 @@
 /*!
  * @file DFRobot_MCP23017.h
- * @brief 定义 DFRobot_MCP23017 类的基础结构
- * @n 这是一个数字I/O扩展板，IIC地址可改变,可以通过IIC口来控制它，它有下面这些功能
+ * @brief Define the basic structure of class DFRobot_MCP23017 
+ * @n This is a digital I/O expansion board with changeable IIC address. It can be controlled via IIC. The functions of the board are shown below:
  * @n 16-bit input/output port expander with interrupt output
  * @n Cascadable for up to 8 devices on one bus
  * @n 25mA sink/source capability per I/O
@@ -24,7 +24,7 @@
 #endif
 #include <Wire.h>
 
-//定义调试宏，若想打开调试宏可将0改为1，关闭可将1改为0
+//Define DBG, change 0 to 1 open the DBG, 1 to 0 to close.  
 #if 0
 #define DBG(...) {Serial.print("["); Serial.print(__FUNCTION__); Serial.print("(): "); Serial.print(__LINE__); Serial.print(" ] "); Serial.println(__VA_ARGS__);}
 #else
@@ -37,76 +37,76 @@
 #define DBGI(...)
 #endif
 
-#define REG_MCP23017_IODIRA   0x00   //端口A方向寄存器
-#define REG_MCP23017_IODIRB   0x01   //端口B方向寄存器
-#define REG_MCP23017_IPOLA    0x02   //IO极性寄存器，默认为0，如果设置为1，当引脚检测到高电平时，会被当做低电平写入
-#define REG_MCP23017_IPOLB    0x03   //IO极性寄存器，默认为0，如果设置为1，当引脚检测到高电平时，会被当做低电平写入
-#define REG_MCP23017_GPINTENA 0x04   //中断使能,对应端口A的8个引脚,每位置0代表失能,置1代表使能(总开关)
-#define REG_MCP23017_GPINTENB 0x05   //中断使能,对应端口B的8个引脚,每位置0代表失能,置1代表使能
-#define REG_MCP23017_DEFVALA  0x06   //默认值寄存器A，当中断使能时,即INTCONx的值为1，为0，表示高电平中断，1表示低电平中断
-#define REG_MCP23017_DEFVALB  0x07   //默认值寄存器B，当中断使能时,及INTCONx的值为1，为0，表示高电平中断，1表示低电平中断
-#define REG_MCP23017_INTCONA  0x08   //中断方式 0：上升沿和下升沿中断 1：高低电平中断
-#define REG_MCP23017_INTCONB  0x09   //中断方式 0：上升沿和下升沿中断 1：高低电平中断
-#define REG_MCP23017_IOCONA   0x0A   //配置寄存器，当IOCONA和IOCONB的第
-#define REG_MCP23017_IOCONB   0x0B   //配置寄存器，
-#define REG_MCP23017_GPPUA    0x0C   //端口A上拉寄存器
-#define REG_MCP23017_GPPUB    0x0D   //端口B上拉寄存器
-#define REG_MCP23017_INTFA    0x0E   //中断标志寄存器A，1表示发生中断，0无中断
-#define REG_MCP23017_INTFB    0x0F   //中断标志寄存器B，1表示发生中断，0无中断
-#define REG_MCP23017_INTCAPA  0x10   //中断捕获寄存器A，该寄存器反映了中断发生时，某引脚的逻辑电平，读取该寄存器可清除中断
-#define REG_MCP23017_INTCAPB  0x11   //中断捕获寄存器B，该寄存器反映了中断发生时，某引脚的逻辑电平，读取该寄存器可清除中断
-#define REG_MCP23017_GPIOA    0x12   //端口A数据寄存器，可读取或设置该寄存器的值，若引脚被设置为中断模式，可通过读取该寄存器，清除中断
-#define REG_MCP23017_GPIOB    0x13   //端口B数据寄存器，可读取或设置该寄存器的值，若引脚被设置为中断模式，可通过读取该寄存器，清除中断
-#define REG_MCP23017_OLATA    0x14   //写入锁存寄存器
-#define REG_MCP23017_OLATB    0x15   //写入锁存寄存器
+#define REG_MCP23017_IODIRA   0x00   //direction register portA, control the direction of the data I/O.
+#define REG_MCP23017_IODIRB   0x01   //direction register portB, control the direction of the data I/O. 
+#define REG_MCP23017_IPOLA    0x02   //Input polarity registerA, 1 = GPIO register bit will reflect the opposite logic state of the input pin;0 = GPIO register bit will reflect the same logic state of the input pin.
+#define REG_MCP23017_IPOLB    0x03   //Input polarity registerB, 1 = GPIO register bit will reflect the opposite logic state of the input pin;0 = GPIO register bit will reflect the same logic state of the input pin.
+#define REG_MCP23017_GPINTENA 0x04   //Interrupt on change control registorA, control the interrupt-on change feature for each pin: 1 = Enable GPIO input pin for interrupt-on-change event; 0 = Disable GPIO input pin for interrupt-on-change event.
+#define REG_MCP23017_GPINTENB 0x05   //Interrupt on change control registorB, control the interrupt-on change feature for each pin: 1 = Enable GPIO input pin for interrupt-on-change event; 0 = Disable GPIO input pin for interrupt-on-change event
+#define REG_MCP23017_DEFVALA  0x06   //Default compare register A for interrupt-on-change.If enabled (via GPINTEN and INTCON) to compare against the DEFVAL register, an opposite value on the associated pin will cause an interrupt to occur.
+#define REG_MCP23017_DEFVALB  0x07   //Default compare register B for interrupt-on-change.If enabled (via GPINTEN and INTCON) to compare against the DEFVAL register, an opposite value on the associated pin will cause an interrupt to occur
+#define REG_MCP23017_INTCONA  0x08   //Interrupt control register A, 1 = Controls how the associated pin value is compared for interrupt-on-change; 0 = Pin value is compared against the previous pin value.
+#define REG_MCP23017_INTCONB  0x09   //Interrupt control register B, 1 = Controls how the associated pin value is compared for interrupt-on-change; 0 = Pin value is compared against the previous pin value.
+#define REG_MCP23017_IOCONA   0x0A   //Configuration register A contains several bits for configuring the device.
+#define REG_MCP23017_IOCONB   0x0B   //Configuration register B contains several bits for configuring the device.
+#define REG_MCP23017_GPPUA    0x0C   //Port A pull-up resistor configuration registerA, control the pull-up resistors for the port pins.
+#define REG_MCP23017_GPPUB    0x0D   //Port B pull-up resistor configuration registerB, control the pull-up resistors for the port pins.
+#define REG_MCP23017_INTFA    0x0E   //Interrupt flag register A: 1 = Pin caused interrupt; 0 = Interrupt not pending.
+#define REG_MCP23017_INTFB    0x0F   //Interrupt flag register B: 1 = Pin caused interrupt; 0 = Interrupt not pending.
+#define REG_MCP23017_INTCAPA  0x10   //Interrupt capture register A : the INTCAP register captures the GPIO port value at the time the interrupt occurred. The register will remain unchanged until the interrupt is cleared via a read of INTCAP or GPIO.
+#define REG_MCP23017_INTCAPB  0x11   //Interrupt capture register B: the INTCAP register captures the GPIO port value at the time the interrupt occurred. The register will remain unchanged until the interrupt is cleared via a read of INTCAP or GPIO
+#define REG_MCP23017_GPIOA    0x12   //Port registerA reflects the value on the port.Reading from this register reads the port. Writing to this register modifies the Output Latch (OLAT) register.
+#define REG_MCP23017_GPIOB    0x13   //Port registerB reflects the value on the port.Reading from this register reads the port. Writing to this register modifies the Output Latch (OLAT) register
+#define REG_MCP23017_OLATA    0x14   //Oupput latch registerA provides access to the output latches. 
+#define REG_MCP23017_OLATB    0x15   //Oupput latch registerB provides access to the output latches.
 
 typedef void(*MCP23017_INT_CB)(int index);
 
 class DFRobot_MCP23017{
 public:
-  #define ERR_OK             0      //无错误
-  #define ERR_PIN           -1      //引脚编号错误
-  #define ERR_DATA_READ     -2      //数据总线读取失败
-  #define ERR_ADDR          -3      //I2C地址错误
+  #define ERR_OK             0      //ok
+  #define ERR_PIN           -1      //error in pin number 
+  #define ERR_DATA_READ     -2      //failed to read data bus
+  #define ERR_ADDR          -3      //error in I2C address 
   
   typedef enum{
-      eGPIOA = 1,  /**< GPIO A组*/
-      eGPIOB = 2,  /**< GPIO B组*/
-      eGPIOALL = 3 /**< GPIO A+B组*/
+      eGPIOA = 1,  /**< GPIO Group A*/
+      eGPIOB = 2,  /**< GPIO Group B*/
+      eGPIOALL = 3 /**< GPIO Group A+B*/
   }eGPIOGrout_t;
   
   typedef enum{
-      eGPA0 = 0,  /**< 模块端口A ，数字引脚GPA0*/
-      eGPA1,  /**< 模块端口A ，数字引脚GPA1*/
-      eGPA2,  /**< 模块端口A ，数字引脚GPA2*/
-      eGPA3,  /**< 模块端口A ，数字引脚GPA3*/
-      eGPA4,  /**< 模块端口A ，数字引脚GPA4*/
-      eGPA5,  /**< 模块端口A ，数字引脚GPA5*/
-      eGPA6,  /**< 模块端口A ，数字引脚GPA6*/
-      eGPA7,  /**< 模块端口A ，数字引脚GPA7*/
-      eGPB0,  /**< 模块端口B ，数字引脚GPB0*/
-      eGPB1,  /**< 模块端口B ，数字引脚GPB1*/
-      eGPB2,  /**< 模块端口B ，数字引脚GPB2*/
-      eGPB3,  /**< 模块端口B ，数字引脚GPB3*/
-      eGPB4,  /**< 模块端口B ，数字引脚GPB4*/
-      eGPB5,  /**< 模块端口B ，数字引脚GPB5*/
-      eGPB6,  /**< 模块端口B ，数字引脚GPB6*/
-      eGPB7,  /**< 模块端口B ，数字引脚GPB7*/
+      eGPA0 = 0,  /**< PortA, digital pin GPA0*/
+      eGPA1,  /**< PortA, digital pin GPA1*/
+      eGPA2,  /**< PortA, digital pin GPA2*/
+      eGPA3,  /**< PortA, digital pin GPA3*/
+      eGPA4,  /**< PortA, digital pin GPA4*/
+      eGPA5,  /**< PortA, digital pin GPA5*/
+      eGPA6,  /**< PortA, digital pin GPA6*/
+      eGPA7,  /**< PortA, digital pin GPA7*/
+      eGPB0,  /**< PortB, digital pin GPB0*/
+      eGPB1,  /**< PortB, digital pin GPB1*/
+      eGPB2,  /**< PortB, digital pin GPB2*/
+      eGPB3,  /**< PortB, digital pin GPB3*/
+      eGPB4,  /**< PortB, digital pin GPB4*/
+      eGPB5,  /**< PortB, digital pin GPB5*/
+      eGPB6,  /**< PortB, digital pin GPB6*/
+      eGPB7,  /**< PortB, digital pin GPB7*/
       eGPIOTotal
   }ePin_t;
   
   typedef enum{
-      eLowLevel = 0,   /**< 引脚中断配置参数，低电平中断 */
-      eHighLevel,  /**< 引脚中断配置参数，高电平中断*/
-      eRising,  /**< 引脚中断配置参数，上升沿中断*/
-      eFalling,  /**< 引脚中断配置参数，下降沿中断*/
-      eChangeLevel     /**< 引脚中断配置参数，双边沿跳变中断*/
+      eLowLevel = 0,   /**< configure pin interrupt, low-level interrupt */
+      eHighLevel,  /**< configure pin interrupt, high-level interrupt */
+      eRising,  /**< configure pin interrupt, rising edge interrupt */
+      eFalling,  /**< configure pin interrupt, falling edge interrupt */
+      eChangeLevel     /**< configure pin interrupt, double edge interrupt*/
   }eInterruptMode_t;
 
   
   typedef struct {
-    ePin_t pin;  /**< 数字引脚，范围0~15 */
-    const char * description;/**< 数字引脚字符串描述，GPIOA0~GPIOB7 */
+    ePin_t pin;  /**< digital pin, range 0~15 */
+    const char * description;/**< digital pin string description, GPIOA0~GPIOB7 */
   } __attribute__ ((packed)) sPinDescription_t;
   
   typedef struct {
@@ -128,9 +128,9 @@ public:
   
 public:
   /**
-   * @brief 构造函数
-   * @param pWire I2C总线指针对象，构造设备，可传参数也可不传参数，默认Wire
-   * @param addr 8位I2C地址，范围0x20~0x27,可通过拨码开关更改A2A1A0来更改地址，构造设备时，可以指定它的I2C地址，默认0x27
+   * @brief Constructor
+   * @param pWire I2C bus pointer object. When calling the function, you may transfer a parameter into it. Defaule as Wire
+   * @param addr 8 bits I2C address, range 0x20~0x27. Change A2A1A0 via DIP switch to revise IIC address. When calling the function, the I2C address can be designated. (default: 0x27)
    * 0  0  1  0  | 0  A2 A1 A0
      0  0  1  0  | 0  1  1  1    0x27
      0  0  1  0  | 0  1  1  0    0x26
@@ -144,58 +144,58 @@ public:
   DFRobot_MCP23017(TwoWire &wire = Wire, uint8_t addr = 0x27);
   ~DFRobot_MCP23017();
   /**
-   * @brief 初始化函数
-   * @return 返回0表示初始化成功，返回其他值表示初始化失败
+   * @brief Init function
+   * @return Return 0 if initialization succeeds, otherwise return non-zero.
    */
   int begin(void);
   /**
-   * @brief 设置引脚模式，将其配置为输入、输出或上拉输入模式(内部上拉电阻100KΩ)
-   * @param pin 引脚编号，可填ePin_t包含的所有枚举值（eGPA0-eGPB7/ 0-15）
-   * @param mode 模式，可设置成输入(INPUT)、输出(OUTPUT)、上拉输入(INPUT_PULLUP)模式(内部上拉电阻100KΩ)
-   * @return 返回0表示设置成功，返回其他值表示设置失败
+   * @brief Set the pin mode to  input, output or pull-up input (internal 100KΩ pull-up resistor)
+   * @param pin Pin number, it could be all enumeration values (eGPA0-eGPB7/ 0-15) included in ePin_t.
+   * @param mode Mode, it can be set to Input, Output, Pull-up Input (internal 100KΩ pull-up resistor)
+   * @return Return 0 if the setting is successful, otherwise return non-zero. 
    */
   int pinMode(ePin_t pin, uint8_t mode);
   /**
-   * @brief 写数字引脚，在写引脚之前，需要将引脚设置为输出模式
-   * @param pin 引脚编号，可填ePin_t包含的所有枚举值（eGPA0-eGPB7/ 0-15）
-   * @param level 高低电平 1(HIGH)或0(LOW)
-   * @return 返回0表示设置成功，返回其他值表示写入失败
+   * @brief Write digtial pin. The pin needs to be set to output mode before writing.
+   * @param pin Pin number, it could be all enumeration values (eGPA0-eGPB7/ 0-15) inlcuded in ePin_t.
+   * @param level High level 1 or Low level 0
+   * @return Return 0 if the writing is successful, otherwise return non-zero. 
    */
   int digitalWrite(ePin_t pin, uint8_t level);
   /**
-   * @brief 读数字引脚，在读引脚之前，需要将引脚设置为输入模式
-   * @param pin 引脚编号，可填ePin_t包含的所有枚举值（eGPA0-eGPB7/ 0-15）
-   * @return 返回高低电平
+   * @brief Read digital pin. The pin needs to be set to input mode before reading. 
+   * @param pin Pin number, it could be all enumeration values (eGPA0-eGPB7/ 0-15) included in ePin_t.
+   * @return Return High or Low
    */
   int digitalRead(ePin_t pin);
   /**
-   * @brief 将某个引脚设置为中断模式
-   * @param pin 引脚编号，可填ePin_t包含的所有枚举值（eGPA0-eGPB7/ 0-15）
-   * @param mode 中断方式：可填eInterruptMode_t包含的所有枚举值
-   * @param cb 中断服务函数，由用户外部定义函数传参，原型为void func(int)
+   * @brief Set a pin to interrupt mode
+   * @param pin Pin number, it could be all enumeration values (eGPA0-eGPB7/ 0-15) included in ePin_t.
+   * @param mode Interrupt mode: all enumeration values included in eInterruptMode_t.
+   * @param cb Interrupt service function, needs to be defined and transferred parameter by users. Prototype: void func(int)
    */
   void pinModeInterrupt(ePin_t pin, eInterruptMode_t mode,  MCP23017_INT_CB cb);
   /**
-   * @brief 轮询某组端口是否发生中断
-   * @param group 端口组，可填eGPIOGrout_t包含的所有枚举值GPIO A组（eGPIOA）、GPIO B组（eGPIOB）A+B组（eGPIOALL）
-   * @n 填eGPIOA，则轮询A组端口是否发生中断
-   * @n 填eGPIOB，则轮询B组端口是否发生中断
-   * @n 填eGPIOALL，则轮询A组和B组端口是否发生中断
-   * @n 不填，默认轮询A组和B组所有端口是否发生中断
+   * @brief Poll if an interrupt occurs on a port group.
+   * @param group Port group, it could be all enumeration values included in eGPIOGrout_t,  GPIO GroupA(eGPIOA), GPIO GroupB(eGPIOB) GroupA+B (eGPIOALL)
+   * @n When setting to eGPIOA，poll if an interrupt occurs on the port group A. 
+   * @n When setting to eGPIOB, poll if an interrupt occurs on the port group B.
+   * @n When setting to eGPIOALL, poll if an interrupt occurs on the port group A+B
+   * @n None, poll if an interrupt occurs on the all ports of group A and B by default. 
    */
   void pollInterrupts(eGPIOGrout_t group=eGPIOALL);
   /**
-   * @brief 将引脚转为字符串描述
-   * @param pin 引脚编号，可填ePin_t包含的所有枚举值（eGPA0-eGPB7/ 0-15）
-   * @return 返回引脚描述字符串
+   * @brief Convert pin into string description
+   * @param pin Pin number, it could be all enumeration values (eGPA0-eGPB7/ 0-15) inlcuded in ePin_t.
+   * @return Return pin description string
    * @n 如"GPIOA0" "GPIOA1" "GPIOA2" "GPIOA3" "GPIOA4" "GPIOA5" "GPIOA6" "GPIOA7"
    * @n   "GPIOB0" "GPIOB1" "GPIOB2" "GPIOB3" "GPIOB4" "GPIOB5" "GPIOB6" "GPIOB7"
    */
   String pinDescription(ePin_t pin);
   /**
-   * @brief 将引脚转为字符串描述
-   * @param pin 引脚编号，范围0~15
-   * @return 返回引脚描述字符串,
+   * @brief Convert pin into string description 
+   * @param pin  Pin number, range 0~15
+   * @return Return pin description string
    * @n 如"GPIOA0" "GPIOA1" "GPIOA2" "GPIOA3" "GPIOA4" "GPIOA5" "GPIOA6" "GPIOA7"
    * @n   "GPIOB0" "GPIOB1" "GPIOB2" "GPIOB3" "GPIOB4" "GPIOB5" "GPIOB6" "GPIOB7"
    */
@@ -203,76 +203,76 @@ public:
 
 protected:
   /**
-   * @brief 将某个引脚设置为输入模式
-   * @param reg 方向寄存器 REG_MCP23017_IODIRA 或MCP23017_IODIRB
-   * @param index 值左移位数
-   * @return 返回0表示设置成功，返回其他值表示设置失败
+   * @brief Set a pin to input mode
+   * @param reg Direction register REG_MCP23017_IODIRA or MCP23017_IODIRB
+   * @param Move index to the left 
+   * @return Return 0 if the setting is successful, otherwise return non-zero.
    */
   int setInput(uint8_t reg, uint8_t index);
   /**
-   * @brief 将某个引脚设置为输出模式
-   * @param reg 方向寄存器 REG_MCP23017_IODIRA 或MCP23017_IODIRB
-   * @param index 值左移位数
-   * @return 返回0表示设置成功，返回其他值表示设置失败
+   * @brief Set a pin to output mode
+   * @param reg Direction register REG_MCP23017_IODIRA  or MCP23017_IODIRB
+   * @param Move index to the left
+   * @return Return 0 if the setting is successful, otherwise return non-zero.
    */
   int setOutput(uint8_t reg, uint8_t index);
   /**
-   * @brief 将某个引脚设置为上拉模式
-   * @param reg 上拉寄存器 MCP23017_GPPUA或MCP23017_GPPUB
-   * @param index 值左移位数
-   * @return 返回0表示设置成功，返回其他值表示设置失败
+   * @brief Set a pin to pull-up mode 
+   * @param reg Pull-up register  MCP23017_GPPUA or MCP23017_GPPUB
+   * @param Move index to the left
+   * @return Return 0 if the setting is successful, otherwise return non-zero.
    */
   int setPullUp(uint8_t reg, uint8_t index);
   /**
-   * @brief 将某个引脚设置为双边沿跳变中断
-   * @param index 引脚编号
-   * @return 返回0表示设置成功，返回其他值表示设置失败
+   * @brief Set a pin to double edge interrupt 
+   * @param index Pin number 
+   * @return Return 0 if the setting is successful, otherwise return non-zero.
    */
   int setInterruptModeChangeLevel(uint8_t index);
   /**
-   * @brief 将某个引脚设置为高电平中断
-   * @param index 引脚编号
-   * @return 返回0表示设置成功，返回其他值表示设置失败
+   * @brief Set a pin to high-level interrupt 
+   * @param index Pin number 
+   * @return Return 0 if the setting is successful, otherwise return non-zero.
    */
   int setInterruptModeHighLevel(uint8_t index);
   /**
-   * @brief 将某个引脚设置为低电平中断
-   * @param index 引脚编号
-   * @return 返回0表示设置成功，返回其他值表示设置失败
+   * @brief Set a pin to low-level interrupt 
+   * @param index  Pin number 
+   * @return Return 0 if the setting is successful, otherwise return non-zero.
    */
   int setInterruptModeLowLevel(uint8_t index);
   /**
-   * @brief 将一个8比特位数据的指定位置0或置1
-   * @param val 8比特数据
-   * @param pin 指定位
-   * @param level_ 数据位0或1
-   * @return 返回修改后的8比特位的数据
+   * @brief Set a designated(index) bit  of a 8bit data to 0 or 1 
+   * @param val 8 bit date
+   * @param pin index 
+   * @param level  data bit 0 or 1
+   * @return Return the revised 8bit data 
    */
   uint8_t updateBit(uint8_t val, uint8_t pin, uint8_t level);
   /**
-   * @brief INTA与INTB中断信号引脚配置，当端口DA的某个引脚发生中断时，INTA输出高电平
-   * 当端口DB的某个引脚发生中断时，INTB输出高电平
+   * @brief Configure INTA and INTB interrupt signal pin. When an interrupt ocurrs on a pin of portA, INTA output High level. 
+   * When an interrupt occurs on a pin of PortB, INTB output High level. 
    */
   void interruptConfig();
   /**
-   * @brief I2C地址检测
-   * @param addr I2C地址
-   * @return 返回0表示I2C地址正确，返回其他值表示I2C地址错误
+   * @brief I2C address detection
+   * @param addr I2C address
+   * @return Return o if IIC address is set correctly, otherwise return non-zero. 
    */
   int i2cdetect(uint8_t addr);
   /**
-   * @brief 写寄存器函数
-   * @param reg  寄存器地址 8bits
-   * @param pBuf 要写入数据的存放缓存
-   * @param size 要写入数据的长度
+   * @brief Write register function
+   * @param reg  register address 8bits
+   * @param pBuf Storage cache of the data to be written into 
+   * @param size Length of the data to be written into 
   */
   void writeReg(uint8_t reg, const void* pBuf, size_t size);
   /**
-   * @brief 读寄存器函数
-   * @param reg  寄存器地址 8bits
-   * @param pBuf 要读取数据的存放缓存
-   * @param size 要读取数据的长度
-   * @return 返回实际读取的长度，返回0表示读取失败
+   * @brief Read register function
+   * @param reg  register address 8bits
+   * @param pBuf Storage cache of the data to be read
+   * @param size Length of the data to be read
+   * @return Return the actually read length, fails to read if return 0.
    */
   uint8_t readReg(uint8_t reg, void* pBuf, size_t size);
 
