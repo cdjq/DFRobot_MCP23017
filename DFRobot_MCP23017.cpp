@@ -1,6 +1,6 @@
 /*!
  * @file DFRobot_MCP23017.h
- * @brief 定义 DFRobot_MCP23017 类的基础结构,基础方法的实现
+ * @brief Define the basic structure of class DFRobot_MCP23017
  *
  * @copyright   Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
  * @licence     The MIT License (MIT)
@@ -413,19 +413,19 @@ int DFRobot_MCP23017::setInterruptModeLowLevel(uint8_t index){
 int DFRobot_MCP23017::setInterruptModeHighLevel(uint8_t index){
   uint8_t value = 0;
   if(index < (uint8_t)eGPB0){
-      if(readReg(REG_MCP23017_INTCONA, &value, 1) != 1){//中断控制，将引脚设置为中断
+      if(readReg(REG_MCP23017_INTCONA, &value, 1) != 1){//interrupt control, set pin to interrupt
           DBGI("I2C READ ERROR!");
           return ERR_DATA_READ;
       }
       DBGI("INTCONA=");DBGI(value,HEX);
       value = updateBit(value, index, 1);
       writeReg(REG_MCP23017_INTCONA, &value, 1);
-      if(readReg(REG_MCP23017_INTCONA, &value, 1) != 1){//读取中断控制寄存器
+      if(readReg(REG_MCP23017_INTCONA, &value, 1) != 1){//read interrupt control register 
           DBGI("I2C READ ERROR!");
           return ERR_DATA_READ;
       }
       DBGI("INTCONA=");DBGI(value,HEX);
-      if(readReg(REG_MCP23017_DEFVALA, &value, 1) != 1){//默认比较值
+      if(readReg(REG_MCP23017_DEFVALA, &value, 1) != 1){
           DBG("I2C READ ERROR!");
           return ERR_DATA_READ;
       }
@@ -433,7 +433,7 @@ int DFRobot_MCP23017::setInterruptModeHighLevel(uint8_t index){
       value = updateBit(value, index, 0);
       writeReg(REG_MCP23017_DEFVALA, &value, 1);
       
-      if(readReg(REG_MCP23017_DEFVALA, &value, 1) != 1){//默认比较值
+      if(readReg(REG_MCP23017_DEFVALA, &value, 1) != 1){
           DBG("I2C READ ERROR!");
           return ERR_DATA_READ;
       }
@@ -479,9 +479,9 @@ int DFRobot_MCP23017::setInterruptModeHighLevel(uint8_t index){
 
 uint8_t DFRobot_MCP23017::updateBit(uint8_t val, uint8_t pin, uint8_t level){
   uint8_t value = val;
-  if(level){//置1
+  if(level){
       value |= (1 << pin);
-  }else{//置0  1左移pin位按位取反
+  }else{
       value &= (~(1 << pin));
   }
   return value;
