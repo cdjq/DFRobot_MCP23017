@@ -1,7 +1,7 @@
 /*!
  * @file ledOutput.ino
- * @brief 将IO扩展板的某个引脚(例：eGPA7)设置为输出模式，并输出高低电平
- * @n 实验现象：连在扩展板某个引脚(例：eGPA7)的LED灯先亮1s再灭1s，以此循环
+ * @brief Set a pin of IO expansion board(eg:eGPA7) to output mode, and output High/Low.
+ * @n Experiment phenomenon: the LED connected to the pin of IO board(eg:eGPA7) repeatedly lights up for 1s and turns off 1s.
  *
  * @copyright   Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
  * @licence     The MIT License (MIT)
@@ -13,9 +13,9 @@
  */
 
 #include <DFRobot_MCP23017.h>
-/*DFRobot_MCP23017构造函数
- *参数&wire 可填TwoWire对象Wire
- *参数addr  如下I2C地址可用0x20~0x27，拨码开关A2、A1、A0与I2C地址对应关系如下所示（默认0x27）：
+/*DFRobot_MCP23017 Constructor
+ *Parameter &wire  Wire
+ *Parameter addr  I2C address can be selected from 0x20~0x27, the relationship of DIP switch (A2,A1,A0) and I2C address (0x27)is shown below：
   * 0  0  1  0  | 0  A2 A1 A0
     0  0  1  0  | 0  1  1  1    0x27
     0  0  1  0  | 0  1  1  0    0x26
@@ -26,25 +26,25 @@
     0  0  1  0  | 0  0  0  1    0x21
     0  0  1  0  | 0  0  0  0    0x20
  */
-DFRobot_MCP23017 mcp(Wire, /*addr =*/0x27);//构造函数，地址可通过拨码开关更改A2A1A0的高低电平，实现硬件更改地址，范围0x20~0x27
-//DFRobot_MCP23017 mcp;//这样定义会使用默认参数， Wire  0x27(默认I2C地址)
+DFRobot_MCP23017 mcp(Wire, /*addr =*/0x27);//constructor, change the Level of A2, A1, A0 via DIP switch to revise I2C address within 0x20~0x27
+//DFRobot_MCP23017 mcp;//use default parameter, Wire  0x27(default I2C address)
 
-//准备：将LED灯连接到IO扩展板的某个数字引脚(例：eGPA7)
+//Prepare: connect the LED to a digital pin of IO expansion board(eg:eGPA7)
 void setup(void)
 {
   Serial.begin(115200);
-  /*在这里一致等到芯片初始化完成才能退出*/
+  /*wait for the chip to be initialized completely, and then exit*/
   while(mcp.begin() != 0){
     Serial.println("Initialization of the chip failed, please confirm that the chip connection is correct!");
     delay(1000);
   }
-  /*pinMode函数用于这是模块引脚模式
-  参数pin 如下参数都是可用的：
+  /*pinMode function is used to set the pin mode of the module
+  Parameter pin, the available parameter is shown below:
   eGPA0  eGPA1  eGPA2  eGPA3  eGPA4  eGPA5  eGPA6  eGPA7
    0       1      2      3      4      5      6      7
   eGPB0  eGPB1  eGPB2  eGPB3  eGPB4  eGPB5  eGPB6  eGPB7
    8       9      10     11     12     13     14     15
-  参数mode 如下参数是可用的：可设置成输入(INPUT)、输出(OUTPUT)、上拉输入(INPUT_PULLUP模式(内部上拉电阻100KΩ)
+  Parameter mode, can be set to: INPUT, OUTPUT, INPUT_PULLUP mode (internal 100KΩ pull-up resistor)
   */
   mcp.pinMode(/*pin = */mcp.eGPA7, /*mode = */OUTPUT);
 }
@@ -52,8 +52,8 @@ void setup(void)
 void loop(void)
 {
   Serial.println("Pin output high level!");
-  /*digitalWrite函数用于将引脚输出高电平(HIGH)或低电平(LOW),在使用该函数之前，必须先将引脚设置为输出模式
-  可以直接指定扩展板的引脚，参数pin如下参数都是可用的：
+  /*digitalWrite function is used to make the pin output HIGH or LOW. The pin needs to be set to output mode before using this function.
+  Designate a pin on the IO expansion board; parameter pin, the available parameter is shown below:
   eGPA0  eGPA1  eGPA2  eGPA3  eGPA4  eGPA5  eGPA6  eGPA7
    0      1    2    3    4    5    6    7
   eGPB0  eGPB1  eGPB2  eGPB3  eGPB4  eGPB5  eGPB6  eGPB7
