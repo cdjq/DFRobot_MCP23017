@@ -48,7 +48,7 @@ void setup() {
 }
 
 void loop() {
-  /*digitalRead function is used to read the Level of digital pins. The pin needs to be set to input mode before using this function. 
+  /*digitalRead function is used to read the Level of a digital pin. The pin needs to be set to input mode before using this function. 
   Parameter pin, the available parameter is shown below:
   eGPA0  eGPA1  eGPA2  eGPA3  eGPA4  eGPA5  eGPA6  eGPA7
    0       1      2      3      4      5      6      7
