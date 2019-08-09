@@ -50,7 +50,7 @@ void setup() {
     delay(1000);
   }
 
-  /*pinModeInterrupt function is ised to set a pin to interrupt mode. The pin will be automatically set to input mode by the function.
+  /*pinModeInterrupt function is used to set a pin to interrupt mode. The pin will be automatically set to input mode by the function.
   Parameter pin, the available parameter is shown below: 
   eGPA0  eGPA1  eGPA2  eGPA3  eGPA4  eGPA5  eGPA6  eGPA7
     0      1      2      3      4      5      6      7
