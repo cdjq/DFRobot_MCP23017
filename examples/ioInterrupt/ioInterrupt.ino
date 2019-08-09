@@ -58,7 +58,7 @@ void setup() {
   Serial.begin(115200);
   #ifdef ARDUINO_ARCH_MPYTHON 
   pinMode(P0, INPUT);//use mPython external interrupt, connect INTA to pin 0 of mPython.
-  pinMode(P1, INPUT);//use mPyhtin external interrupt, connect INTB to pin 1 of mPython.
+  pinMode(P1, INPUT);//use mPython external interrupt, connect INTB to pin 1 of mPython.
   #else
   pinMode(2, INPUT);//use UNO external interrupt 0
   pinMode(3, INPUT);//use UNO external interrupt 1
