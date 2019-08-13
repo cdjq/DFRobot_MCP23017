@@ -48,14 +48,14 @@ void gpioA1(int index){
   Serial.print(description);
   Serial.println(" Interruption occurs!");
   Serial.println("LEDA7 turn on!");
-  mcp.digitalWrite(/*pin = */mcp.eGPB1, /*level = */HIGH);
+  mcp.digitalWrite(/*pin = */mcp.eGPA7, /*level = */HIGH);
 }
 void gpioB7(int index){
   String description = mcp.pinDescription(/*pin = */index);
   Serial.print(description);
   Serial.println(" Interruption occurs!");
   Serial.println("LEDA7 turn off!");
-  mcp.digitalWrite(/*pin = */mcp.eGPB1, /*level = */LOW);
+  mcp.digitalWrite(/*pin = */mcp.eGPA7, /*level = */LOW);
 }
 
 bool intFlagA = false;//INTA interrupt sign
