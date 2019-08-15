@@ -67,7 +67,7 @@ public:
   #define ERR_OK             0      //ok
   #define ERR_PIN           -1      //error in pin number 
   #define ERR_DATA_READ     -2      //failed to read data bus
-  #define ERR_ADDR          -3      //error in I2C address 
+  #define ERR_ADDR          -3      //error in I2C address
   
   typedef enum{
       eGPIOA = 1,  /**< GPIO Group A*/
@@ -143,11 +143,13 @@ public:
    */
   DFRobot_MCP23017(TwoWire &wire = Wire, uint8_t addr = 0x27);
   ~DFRobot_MCP23017();
+
   /**
    * @brief Init function
    * @return Return 0 if initialization succeeds, otherwise return non-zero.
    */
   int begin(void);
+
   /**
    * @brief Set the pin mode to  input, output or pull-up input (internal 100KΩ pull-up resistor)
    * @param pin Pin number, it could be all enumeration values (eGPA0-eGPB7/ 0-15) included in ePin_t.
@@ -155,6 +157,7 @@ public:
    * @return Return 0 if the setting is successful, otherwise return non-zero. 
    */
   int pinMode(ePin_t pin, uint8_t mode);
+
   /**
    * @brief Write digtial pin. The pin needs to be set to output mode before writing.
    * @param pin Pin number, it could be all enumeration values (eGPA0-eGPB7/ 0-15) inlcuded in ePin_t.
@@ -162,12 +165,14 @@ public:
    * @return Return 0 if the writing is successful, otherwise return non-zero. 
    */
   int digitalWrite(ePin_t pin, uint8_t level);
+
   /**
    * @brief Read digital pin. The pin needs to be set to input mode before reading. 
    * @param pin Pin number, it could be all enumeration values (eGPA0-eGPB7/ 0-15) included in ePin_t.
    * @return Return High or Low
    */
   int digitalRead(ePin_t pin);
+
   /**
    * @brief Set a pin to interrupt mode
    * @param pin Pin number, it could be all enumeration values (eGPA0-eGPB7/ 0-15) included in ePin_t.
@@ -175,6 +180,7 @@ public:
    * @param cb Interrupt service function, needs to be defined and transferred parameter by users. Prototype: void func(int)
    */
   void pinModeInterrupt(ePin_t pin, eInterruptMode_t mode,  MCP23017_INT_CB cb);
+
   /**
    * @brief Poll if an interrupt occurs on a port group.
    * @param group Port group, it could be all enumeration values included in eGPIOGrout_t,  GPIO GroupA(eGPIOA), GPIO GroupB(eGPIOB) GroupA+B (eGPIOALL)
@@ -184,6 +190,7 @@ public:
    * @n None, poll if an interrupt occurs on the all ports of group A and B by default. 
    */
   void pollInterrupts(eGPIOGrout_t group=eGPIOALL);
+
   /**
    * @brief Convert pin into string description
    * @param pin Pin number, it could be all enumeration values (eGPA0-eGPB7/ 0-15) inlcuded in ePin_t.
@@ -192,6 +199,7 @@ public:
    * @n   "GPIOB0" "GPIOB1" "GPIOB2" "GPIOB3" "GPIOB4" "GPIOB5" "GPIOB6" "GPIOB7"
    */
   String pinDescription(ePin_t pin);
+
   /**
    * @brief Convert pin into string description 
    * @param pin  Pin number, range 0~15

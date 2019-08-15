@@ -175,6 +175,7 @@ int DFRobot_MCP23017::digitalRead(ePin_t pin){
   return (value >> _pin)&0x01;
 }
 
+
 void DFRobot_MCP23017::pollInterrupts(eGPIOGrout_t group)
 {
   uint8_t value;
