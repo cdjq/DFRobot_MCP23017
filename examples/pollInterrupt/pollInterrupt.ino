@@ -38,7 +38,8 @@ void func(int index){
     8      9      10     11     12     13     14     15
   */
   String description = mcp.pinDescription(/*pin = */index);
-  Serial.print(description);Serial.println(" Interruption occurs!");
+  Serial.print(description);
+  Serial.println(" Interruption occurs!");
 }
 
 void setup() {
