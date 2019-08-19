@@ -1,7 +1,8 @@
 /*!
  * @file buttonInput.ino
  * @brief Connect a button to the IO expansion board, set a pin of the board(eg: eGPA0) to input mode to detect the button status.
- * @n Experiment phenomenon: connect a button on a pin of the IO board(eg:eGPA0), detect the level of the pin and print out the button status on serial port.
+ * @n Experiment phenomenon: connect a button on a pin of the IO board(eg:eGPA0), detect the level of the pin and print out
+ * @n the button status on serial port.
  *
  * @copyright   Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
  * @licence     The MIT License (MIT)
@@ -14,7 +15,8 @@
 #include <DFRobot_MCP23017.h>
 /*DFRobot_MCP23017 constructor
  *Parameter&wire Wire
- *Parameter addr  I2C address can be select from 0x20~0x27; the relationship of DIP switch(A2, A1, A0) and I2C address(0x27) is shown below:
+ *Parameter addr  I2C address can be select from 0x20~0x27; the relationship of DIP switch(A2, A1, A0) and I2C address(0x27) is
+ *shown below:
   * 0  0  1  0  | 0  A2 A1 A0
     0  0  1  0  | 0  1  1  1    0x27
     0  0  1  0  | 0  1  1  0    0x26
