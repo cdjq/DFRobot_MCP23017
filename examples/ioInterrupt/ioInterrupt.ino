@@ -1,8 +1,11 @@
 /*!
  * @file ioInterrupt.ino
- * @brief IO interrupt, set a pin of a port group(A or B) IO to interrupt mode. When an interrupt occurs on the related port group, pin INTA(group A) or INTB(group B) will output a High level.
- * INTA and INTB are used to detect if an interrupt occurs on the pin of port eGPA and eGPB respectively; connect pin INTA and INTB to main-controller's external interrupt 0 and 1 respectively.
- * @n Experiment phenomenon: when the signal change of pin INTA or INTB is detected by main-board, the related interrupt service function will be executed to print out which pin was interrupted on serial port.
+ * @brief IO interrupt, set a pin of a port group(A or B) IO to interrupt mode. When an interrupt occurs on the related port group,
+ * @n pin INTA(group A) or INTB(group B) will output a High level.
+ * @n INTA and INTB are used to detect if an interrupt occurs on the pin of port eGPA and eGPB respectively; connect pin INTA and INTB 
+ * @n to main-controller's external interrupt 0 and 1 respectively.
+ * @n Experiment phenomenon: when the signal change of pin INTA or INTB is detected by main-board, the related interrupt service
+ * @n function will be executed to print out which pin was interrupted on serial port.
  *
  * @copyright   Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
  * @licence     The MIT License (MIT)
@@ -16,7 +19,8 @@
 #include <DFRobot_MCP23017.h>
 /*DFRobot_MCP23017 constructor
  *Parameter &wire Wire
- *Parameter addr  I2C address can be selected from 0x20~0x27; the relationship of the DIP switch(A2, A1, A0) and I2C address(0x27) is shown below: 
+ *Parameter addr  I2C address can be selected from 0x20~0x27; the relationship of the DIP switch(A2, A1, A0) and I2C address(0x27) 
+ *is shown below: 
   * 0  0  1  0  | 0  A2 A1 A0
     0  0  1  0  | 0  1  1  1    0x27
     0  0  1  0  | 0  1  1  0    0x26
