@@ -4,8 +4,10 @@
  * @n Set the pin eGPB1 on port groupB to output mode, connect a LED to the pin, name it as LEDB1.
  * @n Set the pin eGPA7 on port groupA to output mode, connect a LED to the pin, name it as LEDA7.
  * @n Set the pin eGPA0 on port groupA to input mode, connect a button to the pin, name it as ButtonA0.
- * @n Set the pin eGPA1 on port groupA to falling edge interrupt, connect a button to the pin, name it as ButtonA1. Connect INTA interrupted signal pin to the external interrupt 0 of main-controller. (Take UNO as example)
- * @n Set the pin eGPB7 on port groupB to rising edge interrupt, connect a button to the pin, name it as ButtonB7. Connect INTB interrupted signal pin to the external interrupt 1 of main-controller. (Take UNO as example here)
+ * @n Set the pin eGPA1 on port groupA to falling edge interrupt, connect a button to the pin, name it as ButtonA1. 
+ * @n Connect INTA interrupted signal pin to the external interrupt 0 of main-controller. (Take UNO as example)
+ * @n Set the pin eGPB7 on port groupB to rising edge interrupt, connect a button to the pin, name it as ButtonB7.
+ * @n Connect INTB interrupted signal pin to the external interrupt 1 of main-controller. (Take UNO as example here)
  * @n When detected ButtonA0 is pressed, LEDB1 turn on, release LEDB1 off
  * @n When detected an interrupt occurred on port groupA, LEDA7 turn on
  * @n When detected an interrupt occurred on port groupB, LEDA7 turn off 
@@ -21,7 +23,8 @@
 #include <DFRobot_MCP23017.h>
 /*DFRobot_MCP23017 Constructor
  *Parameter &wire  Wire
- *Parameter addr  I2C address can be selected from 0x20~0x27, the relationship of DIP switch (A2,A1,A0) and I2C address(0x27) is shown below:
+ *Parameter addr  I2C address can be selected from 0x20~0x27, the relationship of DIP switch (A2,A1,A0) and I2C address(0x27) 
+ *is shown below:
   * 0  0  1  0  | 0  A2 A1 A0
     0  0  1  0  | 0  1  1  1    0x27
     0  0  1  0  | 0  1  1  0    0x26
