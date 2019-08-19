@@ -1,10 +1,11 @@
 /*!
  * @file DFRobot_MCP23017.h
  * @brief Define the basic structure of class DFRobot_MCP23017 
- * @n This is a digital I/O expansion board with changeable IIC address. It can be controlled via IIC. The functions of the board are shown below:
- * @n 16-bit input/output port expander with interrupt output
- * @n Cascadable for up to 8 devices on one bus
- * @n 25mA sink/source capability per I/O
+ * @n This is a digital I/O expansion board with changeable IIC address. It can be controlled via IIC. 
+ * @n The functions of the board are shown below:
+ * @n 16-bit input/output port expander with interrupt output;
+ * @n Cascadable for up to 8 devices on one bus;
+ * @n 25mA sink/source capability per I/O;
  * @n Supports 100kHz, 400kHz and 1.7MHz I2C™Compatible compatible modes
  *
  * @copyright   Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
@@ -130,7 +131,8 @@ public:
   /**
    * @brief Constructor
    * @param pWire I2C bus pointer object. When calling the function, you may transfer a parameter into it. Defaule as Wire
-   * @param addr 8 bits I2C address, range 0x20~0x27. Change A2A1A0 via DIP switch to revise IIC address. When calling the function, the I2C address can be designated. (default: 0x27)
+   * @param addr 8 bits I2C address, range 0x20~0x27. Change A2A1A0 via DIP switch to revise IIC address. When calling the function, 
+   * @n the I2C address can be designated. (default: 0x27)
    * 0  0  1  0  | 0  A2 A1 A0
      0  0  1  0  | 0  1  1  1    0x27
      0  0  1  0  | 0  1  1  0    0x26
@@ -183,7 +185,8 @@ public:
 
   /**
    * @brief Poll if an interrupt occurs on a port group.
-   * @param group Port group, it could be all enumeration values included in eGPIOGrout_t,  GPIO GroupA(eGPIOA), GPIO GroupB(eGPIOB) GroupA+B (eGPIOALL)
+   * @param group Port group, it could be all enumeration values included in eGPIOGrout_t,  GPIO GroupA(eGPIOA), 
+   * @n GPIO GroupB(eGPIOB) GroupA+B (eGPIOALL).
    * @n When setting to eGPIOA，poll if an interrupt occurs on the port group A. 
    * @n When setting to eGPIOB, poll if an interrupt occurs on the port group B.
    * @n When setting to eGPIOALL, poll if an interrupt occurs on the port group A+B
