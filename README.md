@@ -67,13 +67,15 @@ int digitalRead(ePin_t pin);
  * @brief Set a pin to interrupt mode 
  * @param pin Pin number, it could be all enumeration values (eGPA0-eGPB7/ 0-15) included in ePin_t.
  * @param mode Interrupt mode: all enumeration values included in eInterruptMode_t.
- * @param cb Interrupt service function, needs to be defined and transferred parameter by users. Prototype: void func(int)
+ * @param cb Interrupt service function, needs to be defined and transferred parameter by users. 
+ * @n Prototype: void func(int)
  */
 void pinModeInterrupt(ePin_t pin, eInterruptMode_t mode,  MCP23017_INT_CB cb);
 
 /**
  * @brief Poll if an interrupt occurs on a port group. 
- * @param group Port group, it could be all enumeration values included in eGPIOGrout_t,  GPIO Group A(eGPIOA), GPIO Group B(eGPIOB) Group A+B (eGPIOALL)
+ * @param group Port group, it could be all enumeration values included in eGPIOGrout_t, 
+ * @n GPIO Group A(eGPIOA), GPIO Group B(eGPIOB) Group A+B (eGPIOALL).
  * @n When setting to eGPIOA，poll if an interrupt occurs on the port group A. 
  * @n When setting to eGPIOB, poll if an interrupt occurs on the port group B. 
  * @n When setting to eGPIOALL, poll if an interrupt occurs on the port group A+B
