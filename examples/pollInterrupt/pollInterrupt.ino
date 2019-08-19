@@ -1,7 +1,8 @@
 /*!
  * @file pollInterrupt.ino
  * @brief Set a pin of IO expansion board to interrupt mode, poll if there is an interrupt occurring on the pins of the port.
- * @n Experiment phenomenon: poll if there is an interrupt occurring on the port group(A, B, A+B), if there is, serial print the pin which is interrupted.
+ * @n Experiment phenomenon: poll if there is an interrupt occurring on the port group(A, B, A+B), if there is, serial print the pin
+ * @n which is interrupted.
  *
  * @copyright   Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
  * @licence     The MIT License (MIT)
@@ -14,7 +15,8 @@
 #include <DFRobot_MCP23017.h>
 /*DFRobot_MCP23017 Constructor 
  *Parameter &wire  Wire
- *Parameter addr  I2C address can be selected from 0x20~0x27, the relationship of DIP switch (A2,A1,A0) and I2C address (0x27) is shown below: 
+ *Parameter addr  I2C address can be selected from 0x20~0x27, the relationship of DIP switch (A2,A1,A0) and I2C address (0x27) 
+ *is shown below: 
   * 0  0  1  0  | 0  A2 A1 A0
     0  0  1  0  | 0  1  1  1    0x27
     0  0  1  0  | 0  1  1  0    0x26
