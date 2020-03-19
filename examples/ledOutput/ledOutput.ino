@@ -40,9 +40,9 @@ void setup(void)
   }
   /*pinMode function is used to set the pin mode of the module
   Parameter pin, the available parameter is shown below:
-  eGPA0  eGPA1  eGPA2  eGPA3  eGPA4  eGPA5  eGPA6  eGPA7
+  eGPA0  eGPA1  eGPA2  eGPA3  eGPA4  eGPA5  eGPA6  eGPA7  eGPA
    0       1      2      3      4      5      6      7
-  eGPB0  eGPB1  eGPB2  eGPB3  eGPB4  eGPB5  eGPB6  eGPB7
+  eGPB0  eGPB1  eGPB2  eGPB3  eGPB4  eGPB5  eGPB6  eGPB7  eGPB
    8       9      10     11     12     13     14     15
   Parameter mode, can be set to: INPUT, OUTPUT, INPUT_PULLUP mode (internal 100KΩ pull-up resistor)
   */
@@ -54,10 +54,10 @@ void loop(void)
   Serial.println("Pin output high level!");
   /*digitalWrite function is used to make the pin output HIGH or LOW. The pin needs to be set to output mode before using this function.
   Designate a pin on the IO expansion board; parameter pin, the available parameter is shown below:
-  eGPA0  eGPA1  eGPA2  eGPA3  eGPA4  eGPA5  eGPA6  eGPA7
-   0      1    2    3    4    5    6    7
-  eGPB0  eGPB1  eGPB2  eGPB3  eGPB4  eGPB5  eGPB6  eGPB7
-   8    9   10   11   12   13   14   15
+  eGPA0  eGPA1  eGPA2  eGPA3  eGPA4  eGPA5  eGPA6  eGPA7  eGPA
+   0       1      2      3      4      5      6      7
+  eGPB0  eGPB1  eGPB2  eGPB3  eGPB4  eGPB5  eGPB6  eGPB7  eGPB
+   8       9      10     11     12     13     14     15
   */
   mcp.digitalWrite(/*pin = */mcp.eGPA7, /*level = */HIGH);
   delay(1000);

@@ -89,6 +89,7 @@ void pollInterrupts(eGPIOGrout_t group=eGPIOALL);
  * @return Return pin description string 
  * @n Such as "GPIOA0" "GPIOA1" "GPIOA2" "GPIOA3" "GPIOA4" "GPIOA5" "GPIOA6" "GPIOA7"
  * @n   "GPIOB0" "GPIOB1" "GPIOB2" "GPIOB3" "GPIOB4" "GPIOB5" "GPIOB6" "GPIOB7"
+ * @n   "GPIOA" "GPIOB"
  */
 String pinDescription(ePin_t pin);
 
@@ -98,6 +99,7 @@ String pinDescription(ePin_t pin);
  * @return Return pin description string
  * @n Such as "GPIOA0" "GPIOA1" "GPIOA2" "GPIOA3" "GPIOA4" "GPIOA5" "GPIOA6" "GPIOA7"
  * @n   "GPIOB0" "GPIOB1" "GPIOB2" "GPIOB3" "GPIOB4" "GPIOB5" "GPIOB6" "GPIOB7"
+ * @n   "GPIOA" "GPIOB"
  */
 String pinDescription(int pin);
 ```
