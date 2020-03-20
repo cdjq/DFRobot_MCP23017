@@ -109,14 +109,14 @@ int DFRobot_MCP23017::pinMode(ePin_t pin, uint8_t mode)
   }
   switch(mode){
       case INPUT:
-          setInput(REG_MCP23017_IODIRA, _pin%8, flag);
+          setInput(reg, _pin%8, flag);
           break;
       case OUTPUT:
-          setOutput(REG_MCP23017_IODIRA, _pin%8, flag);
+          setOutput(reg, _pin%8, flag);
           break;
       default:
-          setInput(REG_MCP23017_IODIRA, _pin%8, flag);
-          setPullUp(REG_MCP23017_GPPUA, _pin%8, flag);
+          setInput(reg, _pin%8, flag);
+          setPullUp(reg1, _pin%8, flag);
           break;
   }
   return ERR_OK;
